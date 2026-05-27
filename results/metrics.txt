@@ -1,0 +1,20 @@
+CascadeEWS Results
+==================================================
+MAE       : 0.1324
+RMSE      : 0.1648
+R2        : -1.8195
+AUC-ROC   : 0.6548
+F1 Macro  : 0.0675
+Precision : 0.0000
+Recall    : 0.0000
+Uncert    : 0.0044
+
+              precision    recall  f1-score   support
+
+      Normal       0.11      1.00      0.20         8
+    Moderate       0.00      0.00      0.00        20
+     Extreme       0.00      0.00      0.00        43
+
+    accuracy                           0.11        71
+   macro avg       0.04      0.33      0.07        71
+weighted avg       0.01      0.11      0.02        71

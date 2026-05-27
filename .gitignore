@@ -1,0 +1,9 @@
+data/raw/*.nc
+data/raw/*.nc.gz
+data/processed/*.npy
+results/checkpoints/*.pt
+results/*.npy
+__pycache__/
+*.pyc
+.env
+.cdsapirc

@@ -1,0 +1,26 @@
+{
+  "T_out": 480,
+  "N": 288,
+  "F": 10,
+  "NLAT": 12,
+  "NLON": 24,
+  "n_edges": 2994,
+  "features": [
+    "TempAnom",
+    "CO2",
+    "GHG",
+    "Renewables",
+    "SST",
+    "AR1",
+    "Var",
+    "Skew",
+    "Kurt",
+    "Resid"
+  ],
+  "datasets": {
+    "D1": "Berkeley Earth Monthly",
+    "D2": "Berkeley Earth Annual",
+    "D3": "OWID CO2",
+    "D4": "OWID Energy"
+  }
+}
