@@ -1,4 +1,4 @@
-# CascadeEWS 🌍⚡
+# CascadeEWS 🌍
 ## AI-Driven Early Warning and Cascading Climate Instability Intelligence Framework
 
 ---
@@ -6,8 +6,6 @@
 ## Paper Title
 **"CascadeEWS: A Spatiotemporal Graph Neural Network for Multi-Tipping Cascade
 Early Warning Signals in Climate Systems"**
-
-
 
 ---
 
@@ -132,7 +130,7 @@ Then on GitHub:
 
 ---
 
-## Related Q1 Papers (cite these)
+## Related Q1 Papers 
 
 1. Scheffer et al. (2009) *Nature* — Early warning signals for critical transitions
 2. Boers (2021) *Nature Climate Change* — AMOC tipping warning signals
