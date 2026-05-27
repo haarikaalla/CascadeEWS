@@ -19,7 +19,7 @@ python run.py
 
 ## Step-by-Step Instructions
 
-### Step 1 — Install Python + VSCode (if not done)
+### Step 1 — Install Python + VSCode 
 - Python 3.9+: https://python.org/downloads
 - VSCode: https://code.visualstudio.com
 - Open VSCode → File → Open Folder → select CascadeEWS_Q1
@@ -43,7 +43,7 @@ python step4_evaluate.py  # ~5 min — 8 paper figures + metrics
 
 ---
 
-## Real Datasets (Auto-Downloaded, No Account Needed)
+## Real Datasets 
 
 | # | Dataset | Source | Citation | Size |
 |---|---------|--------|----------|------|
@@ -66,19 +66,19 @@ Spatiotemporal Graph
         ↓
 2-layer GRU                               ← temporal dynamics
         ↓
-Physics-Informed Constraint               ← CSD theory compliance [NOVEL]
+Physics-Informed Constraint               ← CSD theory compliance 
         ↓
 Multi-head outputs:
   ├── Regression: global anomaly score
   ├── Classification: Normal/Moderate/Extreme alert
   ├── Per-node risk map
-  └── Uncertainty (MC Dropout)            ← epistemic uncertainty [NOVEL]
+  └── Uncertainty (MC Dropout)            ← epistemic uncertainty 
         ↓
 Novel Metrics:
-  ├── CPI (Cascade Propagation Index)     ← [NOVEL FORMULA]
-  └── EWS (Early Warning Signal score)   ← [NOVEL]
+  ├── CPI (Cascade Propagation Index)     
+  └── EWS (Early Warning Signal score)   
         ↓
-Cascade Simulator (SIR-model on graph)   ← [NOVEL]
+Cascade Simulator (SIR-model on graph)   
 ```
 
 ---
