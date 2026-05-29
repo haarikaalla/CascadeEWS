@@ -4,8 +4,8 @@
 ---
 
 ## Paper Title
-**"CascadeEWS: A Spatiotemporal Graph Neural Network for Multi-Tipping Cascade
-Early Warning Signals in Climate Systems"**
+**CascadeEWS: A Spatiotemporal Graph Neural Network for Multi-Tipping Cascade
+Early Warning Signals in Climate Systems**
 
 ---
 
