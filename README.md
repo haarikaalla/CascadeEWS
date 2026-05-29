@@ -1,4 +1,4 @@
-# CascadeEWS 🌍
+# CascadeEWS 
 ## AI-Driven Early Warning and Cascading Climate Instability Intelligence Framework
 
 ---
