@@ -142,16 +142,3 @@ Then on GitHub:
 
 ---
 
-## Citation
-
-```bibtex
-@article{cascadeews2026,
-  title={CascadeEWS: A Spatiotemporal Graph Neural Network for
-         Multi-Tipping Cascade Early Warning Signals in Climate Systems},
-  author={Your Name},
-  journal={Geophysical Research Letters},
-  year={2026},
-  doi={...},
-  url={https://github.com/YOUR_USERNAME/CascadeEWS}
-}
-```
