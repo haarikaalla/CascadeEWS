@@ -31,7 +31,7 @@ pip install -r requirements.txt
 
 ### Step 3 — Run the project
 ```bash
-# All at once (recommended):
+# Run:
 python run.py
 
 # OR step by step:
@@ -110,23 +110,6 @@ results/
     ├── fig7_ablation.png               ← Component ablation study
     └── fig8_paper_summary.png          ← Combined summary figure
 ```
-
----
-
-## GitHub Upload
-
-```bash
-git init
-git add .
-git commit -m "CascadeEWS: Q1 Climate Early Warning System"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/CascadeEWS.git
-git push -u origin main
-```
-
-Then on GitHub:
-- Add description: "AI Early Warning System for Climate Tipping Cascades"
-- Add topics: `climate-ai` `graph-neural-network` `early-warning` `pytorch` `Q1-paper`
 
 ---
 
