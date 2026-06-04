@@ -4,10 +4,6 @@
 Physics-Informed Cascade Propagation Index for Multi-Tipping 
 Early Warning in Climate Systems**
 
-Author: Haarika Alla
-Manipal Institute of Technology, Bengaluru
-Submitted to: Climate Dynamics (Springer) — Q1 Journal
-
 ---
 
 ## What This Project Does
