@@ -1,4 +1,4 @@
-# CascadeEWS 🌊
+# CascadeEWS 
 
 **CascadeEWS: A Spatiotemporal Graph Neural Network with 
 Physics-Informed Cascade Propagation Index for Multi-Tipping 
