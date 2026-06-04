@@ -20,13 +20,10 @@ Result: AUC-ROC 0.919 | 6.1 weeks advance warning |
 
 ---
 
-## Run Everything in One Command (Google Colab)
+## Run Everything in One Command 
 
 Upload cascadeews_train.py to Colab (T4 GPU) and run:
   python cascadeews_train.py
-
-All data is generated automatically. No downloads needed.
-Runtime: ~10 minutes on T4 GPU.
 
 ---
 
