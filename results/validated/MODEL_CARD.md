@@ -15,7 +15,9 @@ climate-disaster alarm and must not be used for public-safety decisions.
 - Train target windows end before 2015; validation ends before 2020; test target
   windows end in 2020 or later.
 - Model family and regularization are selected only on validation ROC-AUC.
-- Alert threshold is selected only on validation F1.
+- The balanced threshold is selected only on validation F1.
+- The high-sensitivity threshold maximizes validation precision subject to at least
+  90% validation recall.
 
 ## Primary held-out result
 
@@ -26,6 +28,17 @@ climate-disaster alarm and must not be used for public-safety decisions.
 - F1: **0.727**
 - Precision / recall: **0.640 / 0.842**
 - Test samples: 65
+
+## Long-horizon high-sensitivity operating point
+
+| Horizon | Precision | Recall | F1 |
+|---:|---:|---:|---:|
+| 8 months | 0.579 | 0.524 | 0.550 |
+| 12 months | 0.895 | 0.654 | 0.756 |
+
+These are alternative thresholds on the same validation-selected models. They are
+reported to make the missed-event/false-alarm tradeoff visible, not as proof of
+operational climate-cascade detection.
 
 ## Limitations
 

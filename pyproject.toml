@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "cascade-ews"
-version = "1.0.0"
+version = "1.1.0"
 description = "Leakage-safe climate early-warning experiments using Berkeley Earth and OWID data."
 readme = "README.md"
 requires-python = ">=3.10"

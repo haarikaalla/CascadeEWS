@@ -10,7 +10,7 @@ CascadeEWS is an end-to-end climate machine-learning project that asks a precise
 testable question:
 
 > From information available at the forecast date, will the mean global temperature
-> anomaly over the next 3, 6, or 12 months be at least **0.10 °C above** the preceding
+> anomaly over the next 3, 6, 8, or 12 months be at least **0.10 °C above** the preceding
 > 12-month mean?
 
 The production path uses real temperature, CO₂, and energy-transition datasets,
@@ -23,19 +23,28 @@ system.
 
 ## Validated results
 
-All values below come from the untouched **2020+ test period**. Model family,
+All values below come from the chronologically held-out **2020+ evaluation period**. Model family,
 regularization, and alert threshold were chosen using pre-2020 data only.
 
 | Horizon | Selected signal set | ROC-AUC | 95% block-bootstrap CI | Average precision | F1 | Precision | Recall |
 |---:|---|---:|---:|---:|---:|---:|---:|
 | 3 months | seasonal | **0.844** | 0.676–0.963 | 0.737 | 0.696 | 0.615 | 0.800 |
 | 6 months | temperature history | **0.897** | 0.793–0.976 | 0.771 | **0.727** | 0.640 | **0.842** |
+| 8 months | temperature history | **0.826** | 0.632–0.966 | 0.676 | 0.091 | 1.000 | 0.048 |
 | 12 months | temperature history | **0.897** | 0.762–0.991 | **0.862** | 0.207 | 1.000 | 0.115 |
 
-The 6-month horizon is the primary operating point because it offers the best
-thresholded balance. The 12-month ranking is strong, but its validation-selected
-threshold has low held-out recall; that limitation is intentionally reported rather
-than hidden. Full results are in
+The 6-month horizon is the primary operating point because it offers the best balanced
+threshold. The balanced 8- and 12-month thresholds are conservative and miss many
+events. For warning-oriented use, the project also reports a second threshold chosen
+to require at least 90% recall on validation data:
+
+| Long horizon | High-sensitivity precision | High-sensitivity recall | High-sensitivity F1 |
+|---:|---:|---:|---:|
+| 8 months | 0.579 | 0.524 | 0.550 |
+| 12 months | **0.895** | **0.654** | **0.756** |
+
+This is an explicit operating-point tradeoff, not a different model or a guarantee of
+detecting a climate cascade. Full results are in
 [`results/validated/metrics.json`](results/validated/metrics.json), with responsible
 use documented in the [`model card`](results/validated/MODEL_CARD.md).
 
@@ -50,7 +59,7 @@ flowchart LR
     E --> F[3 candidate signal sets<br/>seasonal · history · full]
     F --> G[Chronological training<br/>target end before 2015]
     G --> H[Validation 2015–2019<br/>select signals, C, threshold]
-    H --> I[Locked 2020+ test<br/>3 · 6 · 12 month horizons]
+    H --> I[2020+ evaluation<br/>3 · 6 · 8 · 12 month horizons]
     I --> J[Metrics + 12-month<br/>block-bootstrap intervals]
     I --> K[Versioned model artifacts]
     J --> L[Model card · figure ·<br/>predictions · dashboard]
@@ -66,7 +75,8 @@ flowchart LR
 - Samples are split by the **end of the forecast window**, so targets cannot cross a
   temporal boundary.
 - Candidate features and regularization are selected only on validation ROC-AUC.
-- The alert threshold is selected only on validation F1; test labels never tune it.
+- Balanced alerts maximize validation F1. High-sensitivity alerts maximize validation
+  precision subject to at least 90% validation recall; test labels tune neither mode.
 
 ## Data and its role
 
@@ -79,7 +89,7 @@ flowchart LR
 
 The pipeline compares seasonal-only, temperature-history, and full contextual feature
 sets. A larger feature set is not assumed to be better: validation rejected the OWID
-drivers for all three current horizons. This is useful negative evidence and prevents
+drivers for all four current horizons. This is useful negative evidence and prevents
 unsupported claims. Exact file sizes, row counts, and SHA-256 hashes are written into
 every result file. See the [`data card`](docs/DATA_CARD.md) for provenance and caveats.
 
@@ -99,10 +109,10 @@ pytest
 streamlit run app.py
 ```
 
-The dashboard lets you switch warning horizons, inspect held-out metrics and
-confidence intervals, compare models, explore the warning timeline and coefficients,
-and inspect dataset provenance. Committed outputs mean it opens immediately after
-installation; rerunning training verifies reproducibility.
+The dashboard lets you switch warning horizons and balanced/high-sensitivity modes,
+inspect metrics and confidence intervals, compare models, explore the warning timeline
+and coefficients, and inspect dataset provenance. Committed outputs mean it opens
+immediately after installation; rerunning training verifies reproducibility.
 
 ### Command-line interface
 

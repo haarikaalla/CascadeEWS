@@ -15,7 +15,7 @@ class ExperimentConfig:
     end_date: str = "2025-01-01"
     train_end: str = "2015-01-01"
     validation_end: str = "2020-01-01"
-    horizons: tuple[int, ...] = (3, 6, 12)
+    horizons: tuple[int, ...] = (3, 6, 8, 12)
     surge_margin_c: float = 0.10
     random_seed: int = 42
     bootstrap_samples: int = 500

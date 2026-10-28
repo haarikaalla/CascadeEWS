@@ -38,3 +38,7 @@ def test_features_use_lagged_drivers_and_past_only_statistics():
 def test_config_paths_are_repository_relative():
     config = ExperimentConfig()
     assert config.monthly_path == Path("data/raw/berkeley_monthly.csv")
+
+
+def test_default_warning_horizons_include_eight_to_twelve_month_range():
+    assert ExperimentConfig().horizons == (3, 6, 8, 12)

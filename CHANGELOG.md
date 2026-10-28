@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.1.0
+
+- Added an independently evaluated 8-month warning horizon alongside the existing
+  3, 6, and 12-month forecasts.
+- Made dashboard horizon options data-driven so future validated horizons appear
+  without hard-coded UI changes.
+- Kept the production path interpretable and validation-selected rather than adding
+  model complexity without measurable validation benefit.
+
 ## 1.0.0
 
 - Added a leakage-safe real-data pipeline for 3, 6, and 12-month warning horizons.

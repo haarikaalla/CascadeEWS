@@ -28,7 +28,10 @@ def run_experiment(config: ExperimentConfig | None = None) -> dict[str, Any]:
             "test_target_end_from": config.validation_end,
             "annual_driver_lag_months": 12,
             "selection_metric": "validation ROC-AUC",
-            "threshold_metric": "validation F1",
+            "balanced_threshold_metric": "validation F1",
+            "high_sensitivity_threshold_policy": (
+                "maximum validation precision subject to at least 0.90 validation recall"
+            ),
         },
         "dataset_manifest": dataset_manifest(config),
         "horizons": {},
@@ -66,11 +69,18 @@ def summary(metrics: dict[str, Any]) -> str:
     lines = ["CascadeEWS validated held-out results", "=" * 43]
     for horizon, result in metrics["horizons"].items():
         test = result["test"]
-        lines.append(
+        line = (
             f"{horizon:>2} months | AUC {test['roc_auc']:.3f} | "
             f"AP {test['average_precision']:.3f} | F1 {test['f1']:.3f} | "
             f"model {result['selected_feature_group']}"
         )
+        if int(horizon) >= 8:
+            sensitive = test["high_sensitivity"]
+            line += (
+                f" | sensitivity-mode F1 {sensitive['f1']:.3f} "
+                f"recall {sensitive['recall']:.3f}"
+            )
+        lines.append(line)
     return "\n".join(lines)
 
 

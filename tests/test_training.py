@@ -14,7 +14,10 @@ def test_training_is_deterministic_and_produces_probabilities():
     assert first.metrics["test"]["roc_auc"] == second.metrics["test"]["roc_auc"]
     assert np.allclose(first.predictions["probability"], second.predictions["probability"])
     assert first.predictions["probability"].between(0, 1).all()
+    assert first.predictions["sensitivity_alert"].isin([0, 1]).all()
     assert len(first.metrics["test"]["roc_auc_block_bootstrap_95_ci"]) == 2
+    assert first.metrics["high_sensitivity_validation_recall_floor"] == 0.90
+    assert 0 <= first.metrics["test"]["high_sensitivity"]["recall"] <= 1
 
 
 def test_model_selection_never_reads_test_labels_for_selection():
@@ -24,3 +27,4 @@ def test_model_selection_never_reads_test_labels_for_selection():
     assert result.metrics["validation_auc"] >= 0.5
     assert result.metrics["selected_feature_group"] in dataset.feature_groups
     assert 0.05 <= result.metrics["decision_threshold"] <= 0.95
+    assert 0.01 <= result.metrics["high_sensitivity_threshold"] <= 0.99

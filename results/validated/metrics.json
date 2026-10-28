@@ -7,7 +7,8 @@
     "test_target_end_from": "2020-01-01",
     "annual_driver_lag_months": 12,
     "selection_metric": "validation ROC-AUC",
-    "threshold_metric": "validation F1"
+    "balanced_threshold_metric": "validation F1",
+    "high_sensitivity_threshold_policy": "maximum validation precision subject to at least 0.90 validation recall"
   },
   "dataset_manifest": {
     "sources": [
@@ -45,6 +46,8 @@
       "selected_feature_group": "seasonal",
       "selected_c": 0.01,
       "decision_threshold": 0.4499999999999999,
+      "high_sensitivity_threshold": 0.45,
+      "high_sensitivity_validation_recall_floor": 0.9,
       "validation_auc": 0.8887070376432078,
       "test": {
         "roc_auc": 0.8440476190476192,
@@ -68,7 +71,22 @@
             16
           ]
         ],
-        "samples": 62
+        "samples": 62,
+        "high_sensitivity": {
+          "f1": 0.6956521739130435,
+          "precision": 0.6153846153846154,
+          "recall": 0.8,
+          "confusion_matrix": [
+            [
+              32,
+              10
+            ],
+            [
+              4,
+              16
+            ]
+          ]
+        }
       },
       "partitions": {
         "train": 357,
@@ -119,6 +137,8 @@
       "selected_feature_group": "history",
       "selected_c": 10.0,
       "decision_threshold": 0.065,
+      "high_sensitivity_threshold": 0.045000000000000005,
+      "high_sensitivity_validation_recall_floor": 0.9,
       "validation_auc": 0.8478260869565217,
       "test": {
         "roc_auc": 0.8970251716247141,
@@ -142,7 +162,22 @@
             16
           ]
         ],
-        "samples": 65
+        "samples": 65,
+        "high_sensitivity": {
+          "f1": 0.6956521739130435,
+          "precision": 0.5925925925925926,
+          "recall": 0.8421052631578947,
+          "confusion_matrix": [
+            [
+              35,
+              11
+            ],
+            [
+              3,
+              16
+            ]
+          ]
+        }
       },
       "partitions": {
         "train": 354,
@@ -254,11 +289,170 @@
         }
       ]
     },
+    "8": {
+      "horizon_months": 8,
+      "selected_feature_group": "history",
+      "selected_c": 10.0,
+      "decision_threshold": 0.49999999999999994,
+      "high_sensitivity_threshold": 0.065,
+      "high_sensitivity_validation_recall_floor": 0.9,
+      "validation_auc": 0.90625,
+      "test": {
+        "roc_auc": 0.8260869565217391,
+        "roc_auc_block_bootstrap_95_ci": [
+          0.6315985838779956,
+          0.9659574468085107
+        ],
+        "average_precision": 0.6760173847971513,
+        "f1": 0.09090909090909091,
+        "precision": 1.0,
+        "recall": 0.047619047619047616,
+        "brier_score": 0.24015066244702712,
+        "positive_rate": 0.31343283582089554,
+        "confusion_matrix": [
+          [
+            46,
+            0
+          ],
+          [
+            20,
+            1
+          ]
+        ],
+        "samples": 67,
+        "high_sensitivity": {
+          "f1": 0.55,
+          "precision": 0.5789473684210527,
+          "recall": 0.5238095238095238,
+          "confusion_matrix": [
+            [
+              38,
+              8
+            ],
+            [
+              10,
+              11
+            ]
+          ]
+        }
+      },
+      "partitions": {
+        "train": 352,
+        "validation": 60,
+        "test": 67
+      },
+      "candidate_selection": {
+        "seasonal": {
+          "validation_auc": 0.8011363636363635,
+          "c": 0.01
+        },
+        "history": {
+          "validation_auc": 0.90625,
+          "c": 10.0
+        },
+        "full": {
+          "validation_auc": 0.8877840909090909,
+          "c": 0.03
+        }
+      },
+      "features": [
+        "temperature",
+        "temperature_lag_1",
+        "temperature_lag_2",
+        "temperature_lag_3",
+        "temperature_lag_6",
+        "temperature_lag_12",
+        "temperature_lag_24",
+        "rolling_mean_6",
+        "rolling_std_6",
+        "rolling_slope_6",
+        "ar1_6",
+        "rolling_mean_12",
+        "rolling_std_12",
+        "rolling_slope_12",
+        "ar1_12",
+        "rolling_mean_24",
+        "rolling_std_24",
+        "rolling_slope_24",
+        "ar1_24",
+        "rolling_mean_60",
+        "rolling_std_60",
+        "rolling_slope_60",
+        "ar1_60",
+        "month_sin",
+        "month_cos",
+        "time_years"
+      ],
+      "top_coefficients": [
+        {
+          "feature": "time_years",
+          "coefficient": 4.907317678849809
+        },
+        {
+          "feature": "rolling_mean_12",
+          "coefficient": -3.516468890587625
+        },
+        {
+          "feature": "rolling_mean_24",
+          "coefficient": -3.1232924306712495
+        },
+        {
+          "feature": "temperature",
+          "coefficient": 1.5469017164408565
+        },
+        {
+          "feature": "rolling_slope_60",
+          "coefficient": 1.2845272053453811
+        },
+        {
+          "feature": "rolling_std_24",
+          "coefficient": -1.0781821721692177
+        },
+        {
+          "feature": "ar1_60",
+          "coefficient": -0.7786440634693764
+        },
+        {
+          "feature": "rolling_mean_6",
+          "coefficient": -0.4866766384598606
+        },
+        {
+          "feature": "temperature_lag_1",
+          "coefficient": 0.45503983621861105
+        },
+        {
+          "feature": "ar1_12",
+          "coefficient": 0.42215891197776984
+        },
+        {
+          "feature": "rolling_slope_12",
+          "coefficient": 0.4026747383172376
+        },
+        {
+          "feature": "ar1_24",
+          "coefficient": 0.3798008466851294
+        },
+        {
+          "feature": "month_cos",
+          "coefficient": 0.369959497887666
+        },
+        {
+          "feature": "rolling_std_60",
+          "coefficient": 0.339008808954931
+        },
+        {
+          "feature": "temperature_lag_3",
+          "coefficient": -0.22045343732087472
+        }
+      ]
+    },
     "12": {
       "horizon_months": 12,
       "selected_feature_group": "history",
       "selected_c": 3.0,
       "decision_threshold": 0.25499999999999995,
+      "high_sensitivity_threshold": 0.060000000000000005,
+      "high_sensitivity_validation_recall_floor": 0.9,
       "validation_auc": 0.9303977272727273,
       "test": {
         "roc_auc": 0.8965811965811966,
@@ -282,7 +476,22 @@
             3
           ]
         ],
-        "samples": 71
+        "samples": 71,
+        "high_sensitivity": {
+          "f1": 0.7555555555555555,
+          "precision": 0.8947368421052632,
+          "recall": 0.6538461538461539,
+          "confusion_matrix": [
+            [
+              43,
+              2
+            ],
+            [
+              9,
+              17
+            ]
+          ]
+        }
       },
       "partitions": {
         "train": 348,

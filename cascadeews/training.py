@@ -67,6 +67,24 @@ def _choose_threshold(y_true: pd.Series, probability: np.ndarray) -> float:
     return min(candidates, key=lambda value: abs(value - 0.5))
 
 
+def _choose_sensitivity_threshold(
+    y_true: pd.Series, probability: np.ndarray, recall_floor: float = 0.90
+) -> float:
+    """Select the most precise validation threshold meeting a recall requirement."""
+    thresholds = np.linspace(0.01, 0.99, 197)
+    candidates: list[tuple[float, float, float]] = []
+    for threshold in thresholds:
+        prediction = probability >= threshold
+        recall = recall_score(y_true, prediction, zero_division=0)
+        if recall >= recall_floor:
+            precision = precision_score(y_true, prediction, zero_division=0)
+            candidates.append((precision, float(threshold), recall))
+    if not candidates:
+        return 0.01
+    _, threshold, _ = max(candidates, key=lambda item: (item[0], item[1]))
+    return threshold
+
+
 def _block_bootstrap_auc(
     y_true: np.ndarray,
     probability: np.ndarray,
@@ -116,9 +134,11 @@ def train_horizon(dataset: SupervisedDataset, config: ExperimentConfig) -> Horiz
     x_validation, y_validation = dataset.split(dataset.validation_mask, feature_names)
     del x_validation
     threshold = _choose_threshold(y_validation, validation_probability)
+    sensitivity_threshold = _choose_sensitivity_threshold(y_validation, validation_probability)
     x_test, y_test = dataset.split(dataset.test_mask, feature_names)
     test_probability = model.predict_proba(x_test)[:, 1]
     test_prediction = test_probability >= threshold
+    sensitivity_prediction = test_probability >= sensitivity_threshold
     auc = _safe_auc(y_test, test_probability)
     bootstrap = _block_bootstrap_auc(
         y_test.to_numpy(dtype=int),
@@ -139,6 +159,7 @@ def train_horizon(dataset: SupervisedDataset, config: ExperimentConfig) -> Horiz
             "actual_alert": y_test.to_numpy(dtype=int),
             "probability": test_probability,
             "predicted_alert": test_prediction.astype(int),
+            "sensitivity_alert": sensitivity_prediction.astype(int),
         }
     )
     classifier = model.named_steps["classifier"]
@@ -155,6 +176,8 @@ def train_horizon(dataset: SupervisedDataset, config: ExperimentConfig) -> Horiz
         "selected_feature_group": group_name,
         "selected_c": -negative_c,
         "decision_threshold": threshold,
+        "high_sensitivity_threshold": sensitivity_threshold,
+        "high_sensitivity_validation_recall_floor": 0.90,
         "validation_auc": validation_auc,
         "test": {
             "roc_auc": auc,
@@ -167,6 +190,16 @@ def train_horizon(dataset: SupervisedDataset, config: ExperimentConfig) -> Horiz
             "positive_rate": float(y_test.mean()),
             "confusion_matrix": matrix,
             "samples": len(y_test),
+            "high_sensitivity": {
+                "f1": float(f1_score(y_test, sensitivity_prediction, zero_division=0)),
+                "precision": float(
+                    precision_score(y_test, sensitivity_prediction, zero_division=0)
+                ),
+                "recall": float(recall_score(y_test, sensitivity_prediction, zero_division=0)),
+                "confusion_matrix": confusion_matrix(
+                    y_test, sensitivity_prediction, labels=[False, True]
+                ).tolist(),
+            },
         },
         "partitions": {
             "train": int(dataset.train_mask.sum()),

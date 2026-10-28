@@ -18,7 +18,7 @@ import matplotlib.pyplot as plt
 def render_evaluation(metrics: dict[str, Any], predictions: pd.DataFrame, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     fig, axes = plt.subplots(2, 2, figsize=(14, 9), constrained_layout=True)
-    colors = {3: "#2563eb", 6: "#7c3aed", 12: "#dc2626"}
+    colors = {3: "#2563eb", 6: "#7c3aed", 8: "#ea580c", 12: "#dc2626"}
     for horizon, group in predictions.groupby("horizon_months"):
         fpr, tpr, _ = roc_curve(group["actual_alert"], group["probability"])
         auc = metrics["horizons"][str(horizon)]["test"]["roc_auc"]
@@ -78,6 +78,15 @@ def write_model_card(metrics: dict[str, Any], output: Path) -> None:
     six = metrics["horizons"]["6"]
     test = six["test"]
     ci = test["roc_auc_block_bootstrap_95_ci"]
+    long_horizon_rows = []
+    for horizon in ("8", "12"):
+        if horizon in metrics["horizons"]:
+            sensitive = metrics["horizons"][horizon]["test"]["high_sensitivity"]
+            long_horizon_rows.append(
+                f'| {horizon} months | {sensitive["precision"]:.3f} | '
+                f'{sensitive["recall"]:.3f} | {sensitive["f1"]:.3f} |'
+            )
+    long_horizon_table = "\n".join(long_horizon_rows) or "| Not evaluated | — | — | — |"
     content = f"""# CascadeEWS validated model card
 
 ## Intended use
@@ -95,7 +104,9 @@ climate-disaster alarm and must not be used for public-safety decisions.
 - Train target windows end before 2015; validation ends before 2020; test target
   windows end in 2020 or later.
 - Model family and regularization are selected only on validation ROC-AUC.
-- Alert threshold is selected only on validation F1.
+- The balanced threshold is selected only on validation F1.
+- The high-sensitivity threshold maximizes validation precision subject to at least
+  90% validation recall.
 
 ## Primary held-out result
 
@@ -106,6 +117,16 @@ climate-disaster alarm and must not be used for public-safety decisions.
 - F1: **{test["f1"]:.3f}**
 - Precision / recall: **{test["precision"]:.3f} / {test["recall"]:.3f}**
 - Test samples: {test["samples"]}
+
+## Long-horizon high-sensitivity operating point
+
+| Horizon | Precision | Recall | F1 |
+|---:|---:|---:|---:|
+{long_horizon_table}
+
+These are alternative thresholds on the same validation-selected models. They are
+reported to make the missed-event/false-alarm tradeoff visible, not as proof of
+operational climate-cascade detection.
 
 ## Limitations
 

@@ -26,22 +26,43 @@ def main() -> None:
     st.set_page_config(page_title="CascadeEWS", page_icon="🌍", layout="wide")
     st.title("CascadeEWS · validated climate early-warning lab")
     st.caption("Held-out results from GCAG global temperature + OWID data · research use only")
+    horizons = sorted(int(value) for value in metrics["horizons"])
+    default_index = horizons.index(6) if 6 in horizons else 0
     horizon = st.selectbox(
-        "Warning horizon", [3, 6, 12], index=1, format_func=lambda value: f"{value} months"
+        "Warning horizon",
+        horizons,
+        index=default_index,
+        format_func=lambda value: f"{value} months",
     )
     result = metrics["horizons"][str(horizon)]
     test = result["test"]
+    operating_mode = st.radio(
+        "Operating mode",
+        ["Balanced", "High sensitivity"],
+        horizontal=True,
+        help=(
+            "Balanced maximizes validation F1. High sensitivity maximizes validation "
+            "precision while requiring at least 90% validation recall."
+        ),
+    )
+    mode_metrics = test if operating_mode == "Balanced" else test["high_sensitivity"]
+    threshold_key = (
+        "decision_threshold"
+        if operating_mode == "Balanced"
+        else "high_sensitivity_threshold"
+    )
+    alert_column = "predicted_alert" if operating_mode == "Balanced" else "sensitivity_alert"
     columns = st.columns(6)
     columns[0].metric("ROC-AUC", f"{test['roc_auc']:.3f}")
     columns[1].metric("Average precision", f"{test['average_precision']:.3f}")
-    columns[2].metric("F1", f"{test['f1']:.3f}")
-    columns[3].metric("Precision", f"{test['precision']:.3f}")
-    columns[4].metric("Recall", f"{test['recall']:.3f}")
+    columns[2].metric("F1", f"{mode_metrics['f1']:.3f}")
+    columns[3].metric("Precision", f"{mode_metrics['precision']:.3f}")
+    columns[4].metric("Recall", f"{mode_metrics['recall']:.3f}")
     columns[5].metric("Test windows", test["samples"])
     ci = test["roc_auc_block_bootstrap_95_ci"]
     st.info(
         f"Selected on validation data: `{result['selected_feature_group']}` features, "
-        f"decision threshold {result['decision_threshold']:.3f}. "
+        f"{operating_mode.lower()} threshold {result[threshold_key]:.3f}. "
         f"Block-bootstrap ROC-AUC interval: {ci[0]:.3f}–{ci[1]:.3f}."
     )
     overview, timeline, comparison, provenance = st.tabs(
@@ -62,9 +83,9 @@ def main() -> None:
         st.subheader("Locked 2020+ test timeline")
         st.line_chart(selected[["probability", "actual_alert"]])
         st.dataframe(
-            selected[
-                ["origin_date", "probability", "predicted_alert", "actual_alert", "surge_c"]
-            ].sort_index(ascending=False),
+            selected[["origin_date", "probability", alert_column, "actual_alert", "surge_c"]]
+            .rename(columns={alert_column: "active_mode_alert"})
+            .sort_index(ascending=False),
             width="stretch",
         )
     with comparison:
