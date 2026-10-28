@@ -64,11 +64,12 @@ def main() -> None:
         f"{operating_mode.lower()} threshold {result[threshold_key]:.3f}. "
         f"Block-bootstrap ROC-AUC interval: {ci[0]:.3f}–{ci[1]:.3f}."
     )
-    overview, timeline, comparison, cascade_tab, provenance = st.tabs(
+    overview, timeline, comparison, gnn_tab, cascade_tab, provenance = st.tabs(
         [
             "Overview",
             "Warning timeline",
             "Model comparison",
+            "Real-data GNN",
             "Cascade scenario",
             "Data & governance",
         ]
@@ -114,6 +115,41 @@ def main() -> None:
         st.subheader("Validation candidate selection")
         candidate_frame = pd.DataFrame(result["candidate_selection"]).T
         st.dataframe(candidate_frame.style.format(precision=3), width="stretch")
+    with gnn_tab:
+        gnn_path = Path("results/gnn/metrics.json")
+        if not gnn_path.exists():
+            st.info("Install `.[research]` and run `cascadeews train-gnn` to create results.")
+        else:
+            gnn_metrics = load_metrics(gnn_path)
+            st.warning(
+                "This GNN predicts the temperature-surge target using observed signal "
+                "nodes, including RAPID AMOC strength. It does not predict AMOC collapse."
+            )
+            gnn_rows = []
+            for value, gnn_result in gnn_metrics["horizons"].items():
+                gnn_test = gnn_result["test"]
+                baseline_test = metrics["horizons"][value]["test"]
+                gnn_rows.append(
+                    {
+                        "horizon_months": int(value),
+                        "gnn_roc_auc": gnn_test["roc_auc"],
+                        "baseline_roc_auc": baseline_test["roc_auc"],
+                        "gnn_average_precision": gnn_test["average_precision"],
+                        "gnn_f1": gnn_test["f1"],
+                        "evaluation_windows": gnn_test["samples"],
+                    }
+                )
+            gnn_frame = pd.DataFrame(gnn_rows).set_index("horizon_months")
+            st.dataframe(gnn_frame.style.format(precision=3), width="stretch")
+            st.bar_chart(gnn_frame[["gnn_roc_auc", "baseline_roc_auc"]])
+            selected_gnn = gnn_metrics["horizons"][str(horizon)]
+            st.subheader(f"{horizon}-month mean node attention")
+            attention = pd.DataFrame(selected_gnn["mean_node_attention"]).set_index("node")
+            st.bar_chart(attention.head(10))
+            st.caption(
+                "Attention shows how this trained model distributed weight; it is not "
+                "evidence that a signal caused the predicted outcome."
+            )
     with cascade_tab:
         st.warning(
             "Scenario analysis only: this graph is not an AMOC forecast and its coupling "

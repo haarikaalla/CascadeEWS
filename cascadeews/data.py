@@ -172,7 +172,13 @@ def annual_consistency_report(config: ExperimentConfig) -> dict[str, float | int
 
 
 def dataset_manifest(config: ExperimentConfig) -> dict[str, object]:
-    paths = [config.monthly_path, config.annual_path, config.co2_path, config.energy_path]
+    paths = [
+        config.monthly_path,
+        config.annual_path,
+        config.co2_path,
+        config.energy_path,
+        config.amoc_path,
+    ]
     records = []
     for path in paths:
         rows = sum(1 for _ in path.open("rb")) - 1
@@ -189,4 +195,12 @@ def dataset_manifest(config: ExperimentConfig) -> dict[str, object]:
         "feature_policy": "past-only rolling features; annual drivers lagged 12 months",
         "temperature_source": "GCAG series in DataHub global-temp monthly snapshot",
         "annual_temperature_consistency": annual_consistency_report(config),
+        "amoc_source": {
+            "series": "RAPID 26.5N observational 12-month mean AMOC strength",
+            "units": "Sverdrups",
+            "role": "contextual node in the real-data GNN; not an AMOC prediction target",
+            "source_url": "https://climate.metoffice.cloud/amoc.html",
+            "source_doi": "10.5285/223b34a3-2dc5-c945-e063-7086abc0f274",
+            "license": "Open Government Licence",
+        },
     }

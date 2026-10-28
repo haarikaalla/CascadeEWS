@@ -13,7 +13,7 @@ testable question:
 > anomaly over the next 3, 6, 8, or 12 months be at least **0.10 °C above** the preceding
 > 12-month mean?
 
-The production path uses real temperature, CO₂, and energy-transition datasets,
+The production path uses real temperature, CO₂, energy-transition and RAPID AMOC datasets,
 past-only feature engineering, chronological validation, an interpretable classifier,
 block-bootstrap uncertainty, a model card, a Streamlit dashboard, and reproducible CI.
 It is a research and engineering demonstration—not an operational disaster-warning
@@ -47,6 +47,31 @@ This is an explicit operating-point tradeoff, not a different model or a guarant
 detecting a climate cascade. Full results are in
 [`results/validated/metrics.json`](results/validated/metrics.json), with responsible
 use documented in the [`model card`](results/validated/MODEL_CARD.md).
+
+## Real-data graph neural network
+
+CascadeEWS now trains a genuine PyTorch GNN over **19 observed signal nodes** from five
+committed real-world datasets. The graph includes temperature history and variability,
+CO₂, greenhouse contribution, primary energy, renewable and fossil shares, seasonality,
+time and the official RAPID 26.5°N 12-month mean AMOC-strength observation.
+
+| Horizon | GNN ROC-AUC | GNN average precision | Balanced F1 | Evaluation windows |
+|---:|---:|---:|---:|---:|
+| 3 months | 0.466 | 0.173 | 0.000 | 35 |
+| 6 months | 0.245 | 0.121 | 0.125 | 38 |
+| 8 months | **0.840** | **0.457** | 0.000 | 40 |
+| 12 months | 0.541 | 0.245 | 0.000 | 44 |
+
+The 8-month GNN has useful ranking performance, but the other horizons do not beat the
+interpretable full-history baseline. This negative result is retained because a serious
+project should compare architectures rather than claim the GNN is automatically
+superior. The AMOC record begins in 2004, so the GNN has only 35–44 evaluation windows,
+depending on horizon. Full details are in the
+[`GNN model card`](results/gnn/MODEL_CARD.md).
+
+The GNN target remains the defined global temperature surge. AMOC is a real contextual
+input node—it is **not** an AMOC-collapse target, and node attention is not causal
+evidence.
 
 ## Multi-element cascade scenario
 
@@ -112,6 +137,7 @@ flowchart LR
 | `berkeley_annual.csv` | Independent quality check | Reconciles annual values against monthly aggregation across 45 experiment years (correlation >0.999; maximum difference <0.001 °C). |
 | `owid_co2.csv` | Candidate contextual signals | World CO₂, growth, and GHG temperature contribution, shifted by 12 months. |
 | `owid_energy.csv` | Candidate contextual signals | World primary energy, renewable share, and fossil share, shifted by 12 months. |
+| `amoc_rapid_12_month_mean.csv` | Real GNN context | RAPID 26.5°N observed 12-month mean AMOC strength in Sverdrups, used only by the GNN. |
 
 The pipeline compares seasonal-only, temperature-history, and full contextual feature
 sets. A larger feature set is not assumed to be better: validation rejected the OWID
@@ -135,6 +161,13 @@ pytest
 streamlit run app.py
 ```
 
+Install and train the real-data GNN with:
+
+```bash
+pip install -e ".[research]"
+cascadeews train-gnn
+```
+
 The dashboard lets you switch warning horizons and balanced/high-sensitivity modes,
 inspect metrics and confidence intervals, compare models, explore the warning timeline
 and coefficients, and inspect dataset provenance. Committed outputs mean it opens
@@ -146,6 +179,7 @@ immediately after installation; rerunning training verifies reproducibility.
 cascadeews --help
 cascadeews verify-data             # validate inputs and print fingerprints
 cascadeews train                   # rebuild models, metrics, figure and model card
+cascadeews train-gnn               # train the real-data PyTorch signal GNN
 cascadeews simulate-cascade --pressure 0.60 --weeks 52
 python run.py                       # compatible one-command training wrapper
 ```
@@ -161,12 +195,14 @@ cascadeews/
   data.py          input validation, provenance, past-only feature engineering
   training.py      validation search, thresholding, evaluation and uncertainty
   cascade.py       six-element, 0–52-week transparent cascade stress test
+  gnn.py           observed-signal graph, message passing, attention and evaluation
   pipeline.py      deterministic end-to-end experiment orchestration
   reporting.py     publication-ready figure and model card
   dashboard.py     interactive result exploration
 tests/              unit and end-to-end reproducibility tests
 results/validated/  auditable metrics, predictions, figure and model card
 results/scenario/   illustrative stage timeline, summary and visualization
+results/gnn/        real-data GNN metrics, predictions and model card
 data/raw/           pinned source-data snapshots
 docs/DATA_CARD.md   data provenance, intended use and limitations
 .github/workflows/  multi-version tests, packaging and reproduction checks
@@ -193,8 +229,8 @@ docs/DATA_CARD.md   data provenance, intended use and limitations
 - Historical notebooks, graph models, cascade-index experiments, synthetic data, and
   legacy figures remain an **experimental research track**. They are not part of the
   validated headline results until assessed under the same locked protocol.
-- AMOC and the other named elements in the scenario engine are conceptual nodes. The
-  repository contains no direct AMOC-strength observations or verified collapse labels.
+- The GNN contains direct RAPID AMOC-strength observations, but the repository has no
+  verified AMOC-collapse labels. Scenario elements remain conceptual stress-test nodes.
 
 ## What the upgrade changed
 

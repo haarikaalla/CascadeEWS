@@ -24,6 +24,12 @@ def build_parser() -> argparse.ArgumentParser:
     scenario.add_argument("--pressure", type=float, default=0.60)
     scenario.add_argument("--weeks", type=int, default=52)
     scenario.add_argument("--output", type=Path, default=Path("results/scenario"))
+    gnn = subparsers.add_parser(
+        "train-gnn", help="train the chronologically validated real-data signal GNN"
+    )
+    gnn.add_argument("--output", type=Path, default=Path("results/gnn"))
+    gnn.add_argument("--artifacts", type=Path, default=Path("artifacts"))
+    gnn.add_argument("--horizons", nargs="+", type=int, default=[3, 6, 8, 12])
     subparsers.add_parser("verify-data", help="print source checksums and row counts")
     return parser
 
@@ -38,6 +44,15 @@ def main() -> None:
 
         result = write_scenario(args.output, global_pressure=args.pressure, weeks=args.weeks)
         print(json.dumps(result, indent=2))
+        return
+    if args.command == "train-gnn":
+        try:
+            from .gnn import gnn_summary, train_real_data_gnn
+        except ImportError as exc:
+            raise SystemExit('Install GNN dependencies with: pip install -e ".[research]"') from exc
+        config = ExperimentConfig(horizons=tuple(args.horizons))
+        report = train_real_data_gnn(config, output_dir=args.output, artifact_dir=args.artifacts)
+        print(gnn_summary(report))
         return
     from .pipeline import run_experiment, summary
 

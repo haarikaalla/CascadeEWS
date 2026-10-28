@@ -14,10 +14,16 @@ and are not suitable on their own for operational or local hazard decisions.
 | `data/raw/berkeley_annual.csv` | [DataHub global temperature](https://datahub.io/core/global-temp) | Independent annual reconciliation of the monthly temperature signal |
 | `data/raw/owid_co2.csv` | [Our World in Data CO₂ dataset](https://github.com/owid/co2-data) | World CO₂, CO₂ growth and GHG temperature contribution |
 | `data/raw/owid_energy.csv` | [Our World in Data energy dataset](https://github.com/owid/energy-data) | World primary energy, renewable share and fossil share |
+| `data/raw/amoc_rapid_12_month_mean.csv` | [Met Office AMOC dashboard](https://climate.metoffice.cloud/amoc.html) / RAPID-MOCHA-WBTS | RAPID 26.5°N observed 12-month mean AMOC strength in Sverdrups |
 
 The two temperature filenames are historical repository names. The pipeline inspects
 the `Source` column and uses the GCAG series; it does not infer provenance from the
 filename.
+
+The AMOC CSV is the dashboard-derived RAPID v2023.1 series cited by DOI
+`10.5285/223b34a3-2dc5-c945-e063-7086abc0f274`. The Met Office publishes its dashboard
+CSV files under the Open Government Licence. It is used as a contextual GNN node, not
+as an AMOC-collapse label.
 
 ## Time and transformation policy
 
@@ -46,6 +52,8 @@ project-specific warming-surge definition, not a standardized climate-tipping la
 - Global averages hide regional variation and extremes.
 - Observational associations cannot establish causal climate mechanisms.
 - Upstream revisions may change results; fingerprints make changes detectable.
+- The AMOC record begins in 2004 and therefore substantially reduces the available GNN
+  training and evaluation history.
 
 ## Redistribution
 

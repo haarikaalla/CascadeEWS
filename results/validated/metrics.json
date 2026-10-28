@@ -35,6 +35,12 @@
         "bytes": 9229369,
         "rows": 23377,
         "sha256": "266f2e2baad7975351bc9bb4aa061d22b1da9fe4c47d51d2ac6071e01e171f76"
+      },
+      {
+        "path": "data/raw/amoc_rapid_12_month_mean.csv",
+        "bytes": 3332,
+        "rows": 227,
+        "sha256": "14c906c3f615449fc541f2b277e64eafa1027cad9063c66c244a003a7113e2cf"
       }
     ],
     "feature_policy": "past-only rolling features; annual drivers lagged 12 months",
@@ -44,6 +50,14 @@
       "mean_absolute_difference_c": 2.4444444444449154e-05,
       "max_absolute_difference_c": 5.833333333338242e-05,
       "correlation": 0.9999999950076464
+    },
+    "amoc_source": {
+      "series": "RAPID 26.5N observational 12-month mean AMOC strength",
+      "units": "Sverdrups",
+      "role": "contextual node in the real-data GNN; not an AMOC prediction target",
+      "source_url": "https://climate.metoffice.cloud/amoc.html",
+      "source_doi": "10.5285/223b34a3-2dc5-c945-e063-7086abc0f274",
+      "license": "Open Government Licence"
     }
   },
   "horizons": {

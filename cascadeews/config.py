@@ -36,3 +36,7 @@ class ExperimentConfig:
     @property
     def energy_path(self) -> Path:
         return self.data_dir / "owid_energy.csv"
+
+    @property
+    def amoc_path(self) -> Path:
+        return self.data_dir / "amoc_rapid_12_month_mean.csv"

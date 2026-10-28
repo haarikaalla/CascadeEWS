@@ -1,0 +1,513 @@
+{
+  "model": "two-layer attention-pooled signal GNN",
+  "claim_scope": "global temperature-surge prediction with observed AMOC context; not AMOC-collapse or tipping-point prediction",
+  "graph": {
+    "nodes": [
+      "temperature",
+      "temperature_lag_1",
+      "temperature_lag_3",
+      "temperature_lag_6",
+      "temperature_lag_12",
+      "rolling_mean_12",
+      "rolling_std_12",
+      "rolling_slope_12",
+      "ar1_12",
+      "co2",
+      "co2_growth_pct",
+      "ghg_temperature_contribution",
+      "primary_energy",
+      "renewables_share",
+      "fossil_share",
+      "amoc_strength",
+      "month_sin",
+      "month_cos",
+      "time_years"
+    ],
+    "undirected_edges": 31,
+    "node_semantics": "observed temperature, CO2, energy and RAPID AMOC signals"
+  },
+  "dataset_manifest": {
+    "sources": [
+      {
+        "path": "data/raw/berkeley_monthly.csv",
+        "bytes": 81040,
+        "rows": 3867,
+        "sha256": "3c9f91f6593638f4b76cd16d4f3a0acb907673b4de5c3904dfcb63bb96e65133"
+      },
+      {
+        "path": "data/raw/berkeley_annual.csv",
+        "bytes": 6082,
+        "rows": 323,
+        "sha256": "2f23416944dc639b7f8e87098e65f158a3690446071018b9b466d47186b0eb86"
+      },
+      {
+        "path": "data/raw/owid_co2.csv",
+        "bytes": 14331624,
+        "rows": 50411,
+        "sha256": "5f36ddd3ec7799f30d0223d0b447b512b17f7e7e1652cd9c10890eb8bc4eaaed"
+      },
+      {
+        "path": "data/raw/owid_energy.csv",
+        "bytes": 9229369,
+        "rows": 23377,
+        "sha256": "266f2e2baad7975351bc9bb4aa061d22b1da9fe4c47d51d2ac6071e01e171f76"
+      },
+      {
+        "path": "data/raw/amoc_rapid_12_month_mean.csv",
+        "bytes": 3332,
+        "rows": 227,
+        "sha256": "14c906c3f615449fc541f2b277e64eafa1027cad9063c66c244a003a7113e2cf"
+      }
+    ],
+    "feature_policy": "past-only rolling features; annual drivers lagged 12 months",
+    "temperature_source": "GCAG series in DataHub global-temp monthly snapshot",
+    "annual_temperature_consistency": {
+      "overlap_years": 45,
+      "mean_absolute_difference_c": 2.4444444444449154e-05,
+      "max_absolute_difference_c": 5.833333333338242e-05,
+      "correlation": 0.9999999950076464
+    },
+    "amoc_source": {
+      "series": "RAPID 26.5N observational 12-month mean AMOC strength",
+      "units": "Sverdrups",
+      "role": "contextual node in the real-data GNN; not an AMOC prediction target",
+      "source_url": "https://climate.metoffice.cloud/amoc.html",
+      "source_doi": "10.5285/223b34a3-2dc5-c945-e063-7086abc0f274",
+      "license": "Open Government Licence"
+    }
+  },
+  "horizons": {
+    "3": {
+      "horizon_months": 3,
+      "validation_auc": 0.8936170212765958,
+      "best_epoch": 61,
+      "balanced_threshold": 0.49999999999999994,
+      "high_sensitivity_threshold": 0.02,
+      "test": {
+        "roc_auc": 0.46551724137931033,
+        "average_precision": 0.17289498947107643,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "confusion_matrix": [
+          [
+            29,
+            0
+          ],
+          [
+            6,
+            0
+          ]
+        ],
+        "high_sensitivity": {
+          "f1": 0.3076923076923077,
+          "precision": 0.18181818181818182,
+          "recall": 1.0
+        },
+        "samples": 35
+      },
+      "mean_node_attention": [
+        {
+          "node": "rolling_mean_12",
+          "mean_attention": 0.1582976132631302
+        },
+        {
+          "node": "ghg_temperature_contribution",
+          "mean_attention": 0.13604776561260223
+        },
+        {
+          "node": "temperature_lag_12",
+          "mean_attention": 0.09705524891614914
+        },
+        {
+          "node": "time_years",
+          "mean_attention": 0.09611973911523819
+        },
+        {
+          "node": "renewables_share",
+          "mean_attention": 0.09416855126619339
+        },
+        {
+          "node": "rolling_std_12",
+          "mean_attention": 0.08761458843946457
+        },
+        {
+          "node": "temperature_lag_6",
+          "mean_attention": 0.06889768689870834
+        },
+        {
+          "node": "primary_energy",
+          "mean_attention": 0.0687013491988182
+        },
+        {
+          "node": "temperature_lag_3",
+          "mean_attention": 0.06211424618959427
+        },
+        {
+          "node": "temperature_lag_1",
+          "mean_attention": 0.037061139941215515
+        },
+        {
+          "node": "co2",
+          "mean_attention": 0.02932460606098175
+        },
+        {
+          "node": "amoc_strength",
+          "mean_attention": 0.020561588928103447
+        },
+        {
+          "node": "temperature",
+          "mean_attention": 0.014379756525158882
+        },
+        {
+          "node": "co2_growth_pct",
+          "mean_attention": 0.01094396784901619
+        },
+        {
+          "node": "month_sin",
+          "mean_attention": 0.005756574682891369
+        },
+        {
+          "node": "rolling_slope_12",
+          "mean_attention": 0.004057709127664566
+        },
+        {
+          "node": "ar1_12",
+          "mean_attention": 0.0031581558287143707
+        },
+        {
+          "node": "month_cos",
+          "mean_attention": 0.0030261781066656113
+        },
+        {
+          "node": "fossil_share",
+          "mean_attention": 0.0027135368436574936
+        }
+      ]
+    },
+    "6": {
+      "horizon_months": 6,
+      "validation_auc": 0.6195652173913043,
+      "best_epoch": 0,
+      "balanced_threshold": 0.42999999999999994,
+      "high_sensitivity_threshold": 0.42500000000000004,
+      "test": {
+        "roc_auc": 0.24479166666666666,
+        "average_precision": 0.1210394729030774,
+        "f1": 0.125,
+        "precision": 0.07692307692307693,
+        "recall": 0.3333333333333333,
+        "confusion_matrix": [
+          [
+            8,
+            24
+          ],
+          [
+            4,
+            2
+          ]
+        ],
+        "high_sensitivity": {
+          "f1": 0.2727272727272727,
+          "precision": 0.15789473684210525,
+          "recall": 1.0
+        },
+        "samples": 38
+      },
+      "mean_node_attention": [
+        {
+          "node": "rolling_mean_12",
+          "mean_attention": 0.06576520204544067
+        },
+        {
+          "node": "temperature_lag_3",
+          "mean_attention": 0.06229918822646141
+        },
+        {
+          "node": "ghg_temperature_contribution",
+          "mean_attention": 0.061263322830200195
+        },
+        {
+          "node": "temperature_lag_1",
+          "mean_attention": 0.0612306222319603
+        },
+        {
+          "node": "temperature_lag_12",
+          "mean_attention": 0.05907152220606804
+        },
+        {
+          "node": "amoc_strength",
+          "mean_attention": 0.05797700583934784
+        },
+        {
+          "node": "temperature",
+          "mean_attention": 0.05699867382645607
+        },
+        {
+          "node": "rolling_std_12",
+          "mean_attention": 0.05632530525326729
+        },
+        {
+          "node": "primary_energy",
+          "mean_attention": 0.05561290308833122
+        },
+        {
+          "node": "time_years",
+          "mean_attention": 0.05315786972641945
+        },
+        {
+          "node": "co2",
+          "mean_attention": 0.053153011947870255
+        },
+        {
+          "node": "temperature_lag_6",
+          "mean_attention": 0.052767716348171234
+        },
+        {
+          "node": "renewables_share",
+          "mean_attention": 0.05250980705022812
+        },
+        {
+          "node": "co2_growth_pct",
+          "mean_attention": 0.045803509652614594
+        },
+        {
+          "node": "ar1_12",
+          "mean_attention": 0.045000091195106506
+        },
+        {
+          "node": "rolling_slope_12",
+          "mean_attention": 0.04448184370994568
+        },
+        {
+          "node": "month_cos",
+          "mean_attention": 0.0438230037689209
+        },
+        {
+          "node": "month_sin",
+          "mean_attention": 0.038325898349285126
+        },
+        {
+          "node": "fossil_share",
+          "mean_attention": 0.0344335101544857
+        }
+      ]
+    },
+    "8": {
+      "horizon_months": 8,
+      "validation_auc": 0.8196022727272727,
+      "best_epoch": 68,
+      "balanced_threshold": 0.49999999999999994,
+      "high_sensitivity_threshold": 0.01,
+      "test": {
+        "roc_auc": 0.8398268398268398,
+        "average_precision": 0.4565689114561295,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "confusion_matrix": [
+          [
+            33,
+            0
+          ],
+          [
+            7,
+            0
+          ]
+        ],
+        "high_sensitivity": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "samples": 40
+      },
+      "mean_node_attention": [
+        {
+          "node": "rolling_mean_12",
+          "mean_attention": 0.15169091522693634
+        },
+        {
+          "node": "time_years",
+          "mean_attention": 0.1474425494670868
+        },
+        {
+          "node": "ghg_temperature_contribution",
+          "mean_attention": 0.14204633235931396
+        },
+        {
+          "node": "temperature_lag_12",
+          "mean_attention": 0.1206507682800293
+        },
+        {
+          "node": "rolling_std_12",
+          "mean_attention": 0.08773256838321686
+        },
+        {
+          "node": "amoc_strength",
+          "mean_attention": 0.08275700360536575
+        },
+        {
+          "node": "renewables_share",
+          "mean_attention": 0.0723189041018486
+        },
+        {
+          "node": "temperature_lag_1",
+          "mean_attention": 0.060330964624881744
+        },
+        {
+          "node": "temperature_lag_6",
+          "mean_attention": 0.05816211551427841
+        },
+        {
+          "node": "temperature_lag_3",
+          "mean_attention": 0.05773202329874039
+        },
+        {
+          "node": "temperature",
+          "mean_attention": 0.008730332367122173
+        },
+        {
+          "node": "primary_energy",
+          "mean_attention": 0.0023756420705467463
+        },
+        {
+          "node": "co2",
+          "mean_attention": 0.0019353708485141397
+        },
+        {
+          "node": "co2_growth_pct",
+          "mean_attention": 0.0018571274122223258
+        },
+        {
+          "node": "fossil_share",
+          "mean_attention": 0.0012848199112340808
+        },
+        {
+          "node": "month_cos",
+          "mean_attention": 0.0011325798695906997
+        },
+        {
+          "node": "ar1_12",
+          "mean_attention": 0.0011068350868299603
+        },
+        {
+          "node": "rolling_slope_12",
+          "mean_attention": 0.0003927694051526487
+        },
+        {
+          "node": "month_sin",
+          "mean_attention": 0.00032035241019912064
+        }
+      ]
+    },
+    "12": {
+      "horizon_months": 12,
+      "validation_auc": 0.7201704545454545,
+      "best_epoch": 39,
+      "balanced_threshold": 0.49999999999999994,
+      "high_sensitivity_threshold": 0.01,
+      "test": {
+        "roc_auc": 0.5411764705882353,
+        "average_precision": 0.24535440539852307,
+        "f1": 0.0,
+        "precision": 0.0,
+        "recall": 0.0,
+        "confusion_matrix": [
+          [
+            34,
+            0
+          ],
+          [
+            10,
+            0
+          ]
+        ],
+        "high_sensitivity": {
+          "f1": 0.0,
+          "precision": 0.0,
+          "recall": 0.0
+        },
+        "samples": 44
+      },
+      "mean_node_attention": [
+        {
+          "node": "time_years",
+          "mean_attention": 0.11959566920995712
+        },
+        {
+          "node": "ghg_temperature_contribution",
+          "mean_attention": 0.11566155403852463
+        },
+        {
+          "node": "rolling_mean_12",
+          "mean_attention": 0.11241409927606583
+        },
+        {
+          "node": "amoc_strength",
+          "mean_attention": 0.10690271854400635
+        },
+        {
+          "node": "temperature_lag_12",
+          "mean_attention": 0.10476541519165039
+        },
+        {
+          "node": "temperature_lag_6",
+          "mean_attention": 0.10408993065357208
+        },
+        {
+          "node": "temperature_lag_3",
+          "mean_attention": 0.08983287960290909
+        },
+        {
+          "node": "temperature_lag_1",
+          "mean_attention": 0.05879497528076172
+        },
+        {
+          "node": "renewables_share",
+          "mean_attention": 0.05646160617470741
+        },
+        {
+          "node": "temperature",
+          "mean_attention": 0.04386957362294197
+        },
+        {
+          "node": "ar1_12",
+          "mean_attention": 0.03150908276438713
+        },
+        {
+          "node": "co2_growth_pct",
+          "mean_attention": 0.022702252492308617
+        },
+        {
+          "node": "rolling_std_12",
+          "mean_attention": 0.019853757694363594
+        },
+        {
+          "node": "rolling_slope_12",
+          "mean_attention": 0.007929119281470776
+        },
+        {
+          "node": "co2",
+          "mean_attention": 0.0028142526280134916
+        },
+        {
+          "node": "primary_energy",
+          "mean_attention": 0.000893334683496505
+        },
+        {
+          "node": "month_sin",
+          "mean_attention": 0.0007517661433666945
+        },
+        {
+          "node": "month_cos",
+          "mean_attention": 0.0005903568817302585
+        },
+        {
+          "node": "fossil_share",
+          "mean_attention": 0.0005676569999195635
+        }
+      ]
+    }
+  }
+}

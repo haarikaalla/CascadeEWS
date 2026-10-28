@@ -14,7 +14,7 @@ from cascadeews.data import (
 def test_real_datasets_are_present_and_fingerprinted():
     manifest = dataset_manifest(ExperimentConfig())
     sources = manifest["sources"]
-    assert len(sources) == 4
+    assert len(sources) == 5
     assert all(item["rows"] > 100 for item in sources)
     assert all(len(item["sha256"]) == 64 for item in sources)
 
@@ -50,6 +50,7 @@ def test_features_use_lagged_drivers_and_past_only_statistics():
 def test_config_paths_are_repository_relative():
     config = ExperimentConfig()
     assert config.monthly_path == Path("data/raw/berkeley_monthly.csv")
+    assert config.amoc_path == Path("data/raw/amoc_rapid_12_month_mean.csv")
 
 
 def test_default_warning_horizons_include_eight_to_twelve_month_range():
