@@ -345,7 +345,8 @@ validation labels select both operating thresholds.
 
 ## Architecture
 
-- 18 real-signal nodes and {report["graph"]["undirected_edges"]} explicit domain edges
+- {len(report["graph"]["nodes"])} real-signal nodes and
+  {report["graph"]["undirected_edges"]} explicit domain edges
 - learned node identities plus standardized scalar observations
 - two normalized message-passing layers
 - attention pooling and binary classification head

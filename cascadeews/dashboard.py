@@ -142,6 +142,11 @@ def main() -> None:
             gnn_frame = pd.DataFrame(gnn_rows).set_index("horizon_months")
             st.dataframe(gnn_frame.style.format(precision=3), width="stretch")
             st.bar_chart(gnn_frame[["gnn_roc_auc", "baseline_roc_auc"]])
+            st.caption(
+                "These scores use different evaluation windows: the GNN requires RAPID "
+                "AMOC measurements, which end earlier than the temperature-only record. "
+                "Treat this as a model overview, not a matched-sample comparison."
+            )
             selected_gnn = gnn_metrics["horizons"][str(horizon)]
             st.subheader(f"{horizon}-month mean node attention")
             attention = pd.DataFrame(selected_gnn["mean_node_attention"]).set_index("node")
