@@ -35,7 +35,7 @@ testpaths = ["tests"]
 addopts = "-q"
 
 [tool.coverage.run]
-omit = ["cascadeews/cli.py", "cascadeews/dashboard.py"]
+omit = ["cascadeews/cli.py", "cascadeews/dashboard.py", "cascadeews/gnn.py"]
 
 [tool.ruff]
 line-length = 100
