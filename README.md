@@ -1,6 +1,6 @@
 # CascadeEWS
 
-### Reproducible early warning for near-term global temperature surges
+### Real-data climate signals, interpretable warnings, and a graph learning research track
 
 [![CI](https://github.com/haarikaalla/CascadeEWS/actions/workflows/ci.yml/badge.svg)](https://github.com/haarikaalla/CascadeEWS/actions/workflows/ci.yml)
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-3776AB.svg)](https://www.python.org/)
@@ -13,11 +13,18 @@ testable question:
 > anomaly over the next 3, 6, 8, or 12 months be at least **0.10 °C above** the preceding
 > 12-month mean?
 
-The production path uses real temperature, CO₂, energy-transition and RAPID AMOC datasets,
-past-only feature engineering, chronological validation, an interpretable classifier,
-block-bootstrap uncertainty, a model card, a Streamlit dashboard, and reproducible CI.
-It is a research and engineering demonstration—not an operational disaster-warning
-system.
+The project combines a validated, interpretable temperature warning model with a
+PyTorch graph neural network trained on temperature, CO₂, energy, and observed RAPID
+AMOC signals. A separate scenario engine explores how assumed stress can spread among
+six climate elements over 52 weeks. The interactive dashboard shows all three paths,
+their results, and their limitations. This is a research demonstration, not an
+operational disaster warning system.
+
+| Project path | What it produces | Evidence |
+|---|---|---|
+| Temperature warning model | Risk of a defined global temperature surge 3, 6, 8, or 12 months ahead | Chronological 2020+ evaluation, block-bootstrap intervals and committed predictions |
+| Real-data signal GNN | Risk of the same surge target with an observed AMOC input | Chronological evaluation on the shorter 2004–2022 RAPID record; results vary substantially by horizon |
+| Cascade scenario | Assumption-driven stages for six connected climate elements over 0–52 weeks | Reproducible stress-test simulation; stage times are scenario outputs |
 
 ![Validated evaluation across warning horizons](results/validated/evaluation.png)
 
@@ -62,11 +69,11 @@ time and the official RAPID 26.5°N 12-month mean AMOC-strength observation.
 | 8 months | **0.840** | **0.457** | 0.000 | 40 |
 | 12 months | 0.541 | 0.245 | 0.000 | 44 |
 
-The 8-month GNN has useful ranking performance, but the other horizons do not beat the
-interpretable full-history baseline. This negative result is retained because a serious
-project should compare architectures rather than claim the GNN is automatically
-superior. The AMOC record begins in 2004, so the GNN has only 35–44 evaluation windows,
-depending on horizon. Full details are in the
+The 8-month GNN ranks outcomes better than its other horizons, but its balanced alert
+threshold produced no positive alerts in the evaluation period. The AMOC record begins
+in 2004 and the committed snapshot ends in 2022, leaving only 35–44 evaluated windows.
+The GNN and baseline figures above cover different windows, so they are not a controlled
+head-to-head performance comparison. Full details are in the
 [`GNN model card`](results/gnn/MODEL_CARD.md).
 
 The GNN target remains the defined global temperature surge. AMOC is a real contextual
@@ -102,20 +109,21 @@ outputs in [`results/scenario`](results/scenario).
 
 ```mermaid
 flowchart LR
-    A[GCAG monthly global<br/>temperature anomaly] --> D[Data validation &<br/>SHA-256 manifest]
-    B[OWID global CO₂] --> D
-    C[OWID global energy] --> D
-    D --> E[Past-only features<br/>lags · rolling statistics · trend · AR1]
-    E --> F[3 candidate signal sets<br/>seasonal · history · full]
-    F --> G[Chronological training<br/>target end before 2015]
-    G --> H[Validation 2015–2019<br/>select signals, C, threshold]
-    H --> I[2020+ evaluation<br/>3 · 6 · 8 · 12 month horizons]
-    I --> J[Metrics + 12-month<br/>block-bootstrap intervals]
-    I --> K[Versioned model artifacts]
-    J --> L[Model card · figure ·<br/>predictions · dashboard]
-    K --> L
-    L --> N[Six-element scenario engine<br/>Stable · Watch · Warning · Critical]
-    L --> M[CI reproduction check]
+    A[GCAG monthly temperature] --> V[Validate dates and data fingerprints]
+    B[GCAG annual temperature] --> Q[Check monthly vs annual consistency]
+    Q --> V
+    C[OWID CO₂ and energy] --> V
+    D[RAPID AMOC at 26.5°N] --> V
+    V --> F[Past-only temperature and lagged annual features]
+    F --> G[Interpretable warning model]
+    F --> H[19-node signal GNN]
+    D --> H
+    G --> I[Train before 2015; select with 2015–2019 validation]
+    H --> I
+    I --> J[Evaluate 2020+ windows for each available record]
+    J --> K[Metrics, predictions, model cards and dashboard]
+    K --> S[Six-element cascade stress scenario]
+    J --> R[CI tests and reproducibility checks]
 ```
 
 ### Leakage controls
@@ -153,25 +161,25 @@ cd CascadeEWS
 python -m venv .venv
 source .venv/bin/activate          # Windows: .venv\Scripts\activate
 python -m pip install --upgrade pip
-pip install -e ".[dev,dashboard]"
+pip install -e ".[dev,dashboard,research]"
 
 cascadeews verify-data
 cascadeews train
+cascadeews train-gnn
+cascadeews simulate-cascade --pressure 0.60 --weeks 52
 pytest
 streamlit run app.py
 ```
 
-Install and train the real-data GNN with:
+The dashboard opens with committed results even before retraining. It contains six tabs:
+Overview, Warning timeline, Model comparison, Real-data GNN, Cascade scenario, and
+Data & governance. Choose a horizon and balanced or high-sensitivity alert mode to
+inspect the corresponding historical results. Training regenerates the committed
+outputs and writes model binaries locally under `artifacts/`.
 
-```bash
-pip install -e ".[research]"
-cascadeews train-gnn
-```
-
-The dashboard lets you switch warning horizons and balanced/high-sensitivity modes,
-inspect metrics and confidence intervals, compare models, explore the warning timeline
-and coefficients, and inspect dataset provenance. Committed outputs mean it opens
-immediately after installation; rerunning training verifies reproducibility.
+For a lighter install that skips PyTorch and GNN retraining, use
+`pip install -e ".[dev,dashboard]"` and omit `cascadeews train-gnn`. The committed GNN
+results still appear in the dashboard.
 
 ### Command-line interface
 
@@ -213,6 +221,7 @@ docs/DATA_CARD.md   data provenance, intended use and limitations
 - Installable package with modular boundaries and CLI entry points.
 - Unit and pipeline tests with more than 85% required coverage.
 - CI on Python 3.10–3.13, wheel smoke test, and committed-result reproduction check.
+- A dedicated CI job trains and checks the PyTorch GNN against the committed datasets.
 - Weekly grouped Dependabot updates for Python and GitHub Actions dependencies.
 - Deterministic seeds and temporal block bootstrap for autocorrelated data.
 - Model card, immutable data fingerprints, and explicit limitations.
