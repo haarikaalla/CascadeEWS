@@ -1,0 +1,319 @@
+week,element,risk,stage
+0,AMOC,0.2706,Watch
+0,Greenland ice sheet,0.24420000000000003,Stable
+0,Arctic sea ice,0.29040000000000005,Watch
+0,Amazon rainforest,0.22440000000000004,Stable
+0,ENSO,0.2046,Stable
+0,West Antarctic ice sheet,0.231,Stable
+1,AMOC,0.3036560376827586,Watch
+1,Greenland ice sheet,0.27372429062400006,Watch
+1,Arctic sea ice,0.32449026048000007,Watch
+1,Amazon rainforest,0.25322087961600004,Watch
+1,ENSO,0.23339900467200003,Stable
+1,West Antarctic ice sheet,0.25875675648,Watch
+2,AMOC,0.33403495148461465,Watch
+2,Greenland ice sheet,0.30090730798336257,Watch
+2,Arctic sea ice,0.35572465807546116,Watch
+2,Amazon rainforest,0.27993530555539375,Watch
+2,ENSO,0.2601632947592218,Watch
+2,West Antarctic ice sheet,0.2843991954720709,Watch
+3,AMOC,0.3618191891766931,Watch
+3,Greenland ice sheet,0.32582930668885673,Watch
+3,Arctic sea ice,0.3842074185981145,Watch
+3,Amazon rainforest,0.3045801429773223,Watch
+3,ENSO,0.28490897297631845,Watch
+3,West Antarctic ice sheet,0.3079927462487695,Watch
+4,AMOC,0.3871179197514418,Watch
+4,Greenland ice sheet,0.34858912220716803,Watch
+4,Arctic sea ice,0.41006830319851745,Watch
+4,Amazon rainforest,0.32721599081167124,Watch
+4,ENSO,0.30768007304945,Watch
+4,West Antarctic ice sheet,0.3296192791548935,Watch
+5,AMOC,0.4100602245677976,Watch
+5,Greenland ice sheet,0.36929944351822913,Watch
+5,Arctic sea ice,0.4334555272217707,Watch
+5,Amazon rainforest,0.3479224189566209,Watch
+5,ENSO,0.3285431718512856,Watch
+5,West Antarctic ice sheet,0.34937335158260835,Watch
+6,AMOC,0.4307888700044833,Watch
+6,Greenland ice sheet,0.3880824429627887,Watch
+6,Arctic sea ice,0.45452935746867784,Watch
+6,Amazon rainforest,0.36679337806247647,Watch
+6,ENSO,0.3475822210897297,Watch
+6,West Antarctic ice sheet,0.3673586388662513,Watch
+7,AMOC,0.4494548218757658,Watch
+7,Greenland ice sheet,0.4050658848833443,Watch
+7,Arctic sea ice,0.4734565373605424,Watch
+7,Amazon rainforest,0.3839329591908523,Watch
+7,ENSO,0.36489378476616857,Watch
+7,West Antarctic ice sheet,0.38368467362113307,Watch
+8,AMOC,0.46621258127541015,Watch
+8,Greenland ice sheet,0.4203797793702564,Watch
+8,Arctic sea ice,0.4904056058488321,Watch
+8,Amazon rainforest,0.3994516187781234,Watch
+8,ENSO,0.38058280238276715,Watch
+8,West Antarctic ice sheet,0.398463971593434,Watch
+9,AMOC,0.4812163560549167,Watch
+9,Greenland ice sheet,0.4341536016846584,Watch
+9,Arctic sea ice,0.5055431093110471,Warning
+9,Amazon rainforest,0.41346293011181734,Watch
+9,ENSO,0.39475893998735445,Watch
+9,West Antarctic ice sheet,0.41180958261493456,Watch
+10,AMOC,0.49461703323549705,Watch
+10,Greenland ice sheet,0.44651406294014984,Watch
+10,Arctic sea ice,0.5190306570906911,Warning
+10,Amazon rainforest,0.42608087851634274,Watch
+10,ENSO,0.407533544290311,Watch
+10,West Antarctic ice sheet,0.4238330734579836,Watch
+11,AMOC,0.5065598845603221,Warning
+11,Greenland ice sheet,0.4575833931234707,Watch
+11,Arctic sea ice,0.5310227395578425,Warning
+11,Amazon rainforest,0.4374176843538948,Watch
+11,ENSO,0.41901717998554355,Watch
+11,West Antarctic ice sheet,0.43464292566272994,Watch
+12,AMOC,0.5171829180324622,Warning
+12,Greenland ice sheet,0.4674780823190595,Watch
+12,Arctic sea ice,0.5416652100831014,Warning
+12,Amazon rainforest,0.4475821151765478,Watch
+12,ENSO,0.4293177063755751,Watch
+12,West Antarctic ice sheet,0.44434331525095844,Watch
+13,AMOC,0.526615779936485,Warning
+13,Greenland ice sheet,0.4763080183936798,Watch
+13,Arctic sea ice,0.5510943260759943,Warning
+13,Amazon rainforest,0.4566782345242886,Watch
+13,ENSO,0.4385388349216417,Watch
+13,West Antarctic ice sheet,0.453033231597384,Watch
+14,AMOC,0.5349791116810863,Warning
+14,Greenland ice sheet,0.4841759575880218,Watch
+14,Arctic sea ice,0.5594362461684361,Warning
+14,Amazon rainforest,0.4648045282011679,Watch
+14,ENSO,0.4467791025228522,Watch
+14,West Antarctic ice sheet,0.460805888308701,Watch
+15,AMOC,0.5423842712324854,Warning
+15,Greenland ice sheet,0.4911772667525897,Watch
+15,Arctic sea ice,0.5668068879730324,Warning
+15,Amazon rainforest,0.47205334758507556,Watch
+15,ENSO,0.4541311942451746,Watch
+15,West Antarctic ice sheet,0.46774837845125755,Watch
+16,AMOC,0.5489333377543271,Warning
+16,Greenland ice sheet,0.49739988089469395,Watch
+16,Arctic sea ice,0.5733120613491551,Warning
+16,Amazon rainforest,0.4785106119994532,Watch
+16,ENSO,0.4606815521155213,Watch
+16,West Antarctic ice sheet,0.4739415286762185,Watch
+17,AMOC,0.5547193286271802,Warning
+17,Greenland ice sheet,0.5029244261038391,Warning
+17,Arctic sea ice,0.5790478040314337,Warning
+17,Amazon rainforest,0.48425571702101056,Watch
+17,ENSO,0.4665102119948349,Watch
+17,West Antarctic ice sheet,0.47945991071278155,Watch
+18,AMOC,0.5598265690482026,Warning
+18,Greenland ice sheet,0.5078244649186314,Warning
+18,Arctic sea ice,0.5841008585776294,Warning
+18,Amazon rainforest,0.4893616017332756,Watch
+18,ENSO,0.4716908172898363,Watch
+18,West Antarctic ice sheet,0.48437197354484524,Watch
+19,AMOC,0.5643311650694753,Warning
+19,Greenland ice sheet,0.512166828175539,Warning
+19,Arctic sea ice,0.5885492410615994,Warning
+19,Amazon rainforest,0.4938949345610159,Watch
+19,ENSO,0.47629076550251476,Watch
+19,West Antarctic ice sheet,0.48874026476871474,Watch
+20,AMOC,0.5683015407062808,Warning
+20,Greenland ice sheet,0.5160120039407595,Warning
+20,Arctic sea ice,0.5924628622932981,Warning
+20,Amazon rainforest,0.4979163838808861,Watch
+20,ENSO,0.4803714507601892,Watch
+20,West Antarctic ice sheet,0.49262171474209104,Watch
+21,AMOC,0.5717990083636136,Warning
+21,Greenland ice sheet,0.5194145600413177,Warning
+21,Arctic sea ice,0.5959041713613352,Warning
+21,Amazon rainforest,0.5014809457448715,Warning
+21,ENSO,0.48398857214195773,Watch
+21,West Antarctic ice sheet,0.49606796191669206,Watch
+22,AMOC,0.5748783491941774,Warning
+22,Greenland ice sheet,0.5224235818735847,Warning
+22,Arctic sea ice,0.5989287989074629,Warning
+22,Amazon rainforest,0.5046383065741943,Warning
+22,ENSO,0.4871924836082091,Watch
+22,West Antarctic ice sheet,0.49912570204954576,Watch
+23,AMOC,0.5775883861334805,Warning
+23,Greenland ice sheet,0.5250831115548542,Warning
+23,Arctic sea ice,0.6015861838111807,Warning
+23,Amazon rainforest,0.5074332234923514,Warning
+23,ENSO,0.49002856655569144,Watch
+23,West Antarctic ice sheet,0.5018370477441497,Warning
+24,AMOC,0.5799725373473313,Warning
+24,Greenland ice sheet,0.5274325781292933,Warning
+24,Arctic sea ice,0.6039201720064218,Warning
+24,Amazon rainforest,0.5099059090527788,Warning
+24,ENSO,0.49253761044926186,Watch
+24,West Antarctic ice sheet,0.5042398879714677,Warning
+25,AMOC,0.5820693418013034,Warning
+25,Greenland ice sheet,0.5295072115082639,Warning
+25,Arctic sea ice,0.60596958012276,Warning
+25,Amazon rainforest,0.5120924105135879,Warning
+25,ENSO,0.49475619066203436,Watch
+25,West Antarctic ice sheet,0.5063682398874451,Warning
+26,AMOC,0.5839129517622009,Warning
+26,Greenland ice sheet,0.531338435197038,Warning
+26,Arctic sea ice,0.6077687197017123,Warning
+26,Amazon rainforest,0.5140249765810189,Warning
+26,ENSO,0.49671703565671377,Watch
+26,West Antarctic ice sheet,0.5082525874448014,Warning
+27,AMOC,0.5855335894092498,Warning
+27,Greenland ice sheet,0.532954234720267,Warning
+27,Arctic sea ice,0.6093478800402568,Warning
+27,Amazon rainforest,0.515732406760143,Warning
+27,ENSO,0.498449378044808,Watch
+27,West Antarctic ice sheet,0.5099202030490373,Warning
+28,AMOC,0.5869579664992126,Warning
+28,Greenland ice sheet,0.5343795000896554,Warning
+28,Arctic sea ice,0.6107337694010724,Warning
+28,Amazon rainforest,0.5172403801948534,Warning
+28,ENSO,0.49997928595291624,Watch
+28,West Antarctic ice sheet,0.5113954498916078,Warning
+29,AMOC,0.5882096673121753,Warning
+29,Greenland ice sheet,0.5356363417350888,Warning
+29,Arctic sea ice,0.6119499155272972,Warning
+29,Amazon rainforest,0.5185717622255472,Warning
+29,ENSO,0.5013299725890039,Warning
+29,West Antarctic ice sheet,0.5127000636650899,Warning
+30,AMOC,0.5893094960046696,Warning
+30,Greenland ice sheet,0.5367443801122778,Warning
+30,Arctic sea ice,0.6130170272154232,Warning
+30,Amazon rainforest,0.5197468879121042,Warning
+30,ENSO,0.5025220830121734,Warning
+30,West Antarctic ice sheet,0.5138534131794856,Warning
+31,AMOC,0.5902757900992885,Warning
+31,Greenland ice sheet,0.5377210097638707,Warning
+31,Arctic sea ice,0.61395331922196,Warning
+31,Amazon rainforest,0.5207838225237736,Warning
+31,ENSO,0.5035739579338395,Warning
+31,West Antarctic ice sheet,0.5148727400032596,Warning
+32,AMOC,0.5911247022152392,Warning
+32,Greenland ice sheet,0.5385816389959444,Warning
+32,Arctic sea ice,0.6147748030800483,Warning
+32,Amazon rainforest,0.521698599539802,Warning
+32,ENSO,0.5045018749740445,Warning
+32,West Antarctic ice sheet,0.515773377688677,Warning
+33,AMOC,0.5918704523492099,Warning
+33,Greenland ice sheet,0.5393399065783484,Warning
+33,Arctic sea ice,0.6154955465392321,Warning
+33,Amazon rainforest,0.522505437080129,Warning
+33,ENSO,0.5053202682124615,Warning
+33,West Antarctic ice sheet,0.516568951443599,Warning
+34,AMOC,0.5925255530957936,Warning
+34,Greenland ice sheet,0.5400078770186592,Warning
+34,Arctic sea ice,0.6161279043608175,Warning
+34,Amazon rainforest,0.5232169339316085,Warning
+34,ENSO,0.5060419271496858,Warning
+34,West Antarctic ice sheet,0.5172715593103787,Warning
+35,AMOC,0.593101010187061,Warning
+35,Greenland ice sheet,0.5405962160220914,Warning
+35,Arctic sea ice,0.6166827231381713,Warning
+35,Amazon rainforest,0.5238442464824751,Warning
+35,ENSO,0.5066781763635363,Warning
+35,West Antarctic ice sheet,0.5178919360309563,Warning
+36,AMOC,0.5936065006592463,Warning
+36,Greenland ice sheet,0.5411143477547614,Warning
+36,Arctic sea ice,0.6171695226931317,Warning
+36,Amazon rainforest,0.5243972479507576,Warning
+36,ENSO,0.5072390372337384,Warning
+36,West Antarctic ice sheet,0.518439600835172,Warning
+37,AMOC,0.5940505308418889,Warning
+37,Greenland ice sheet,0.5415705954917877,Warning
+37,Arctic sea ice,0.6175966564469066,Warning
+37,Amazon rainforest,0.5248846713106079,Warning
+37,ENSO,0.5077333731375981,Warning
+37,West Antarctic ice sheet,0.5189229904023465,Warning
+38,AMOC,0.5944405762269586,Warning
+38,Greenland ice sheet,0.5419723071676944,Warning
+38,Arctic sea ice,0.6179714529916073,Warning
+38,Amazon rainforest,0.5253142372994554,Warning
+38,ENSO,0.508169019505649,Warning
+38,West Antarctic ice sheet,0.5193495782267009,Warning
+39,AMOC,0.5947832051241383,Warning
+39,Greenland ice sheet,0.5423259672643097,Warning
+39,Arctic sea ice,0.6183003409079431,Warning
+39,Amazon rainforest,0.5256927688404891,Warning
+39,ENSO,0.5085529000826587,Warning
+39,West Antarctic ice sheet,0.5197259815749007,Warning
+40,AMOC,0.5950841878519926,Warning
+40,Greenland ice sheet,0.5426372963782382,Warning
+40,Arctic sea ice,0.6185889586934132,Warning
+40,Amazon rainforest,0.5260262931484083,Warning
+40,ENSO,0.5088911306757076,Warning
+40,West Antarctic ice sheet,0.5200580571664101,Warning
+41,AMOC,0.5953485930591879,Warning
+41,Greenland ice sheet,0.5429113397115695,Warning
+41,Arctic sea ice,0.6188422514889514,Warning
+41,Amazon rainforest,0.5263201327086471,Warning
+41,ENSO,0.5091891115948146,Warning
+41,West Antarctic ice sheet,0.5203509866402032,Warning
+42,AMOC,0.5955808726193231,Warning
+42,Greenland ice sheet,0.543152545629772,Warning
+42,Arctic sea ice,0.6190645561239569,Warning
+42,Amazon rainforest,0.5265789862365757,Warning
+42,ENSO,0.5094516099084165,Warning
+42,West Antarctic ice sheet,0.5206093527989823,Warning
+43,AMOC,0.5957849363999393,Warning
+43,Greenland ice sheet,0.5433648353325948,Warning
+43,Arctic sea ice,0.6192596758421428,Warning
+43,Amazon rainforest,0.5268070006373513,Warning
+43,ENSO,0.5096828325500196,Warning
+43,West Antarctic ice sheet,0.520837207547654,Warning
+44,AMOC,0.5959642180725065,Warning
+44,Greenland ice sheet,0.5435516645892068,Warning
+44,Arctic sea ice,0.6194309459248185,Warning
+44,Amazon rainforest,0.5270078349018673,Warning
+44,ENSO,0.509886491226536,Warning
+44,West Antarctic ice sheet,0.5210381323687027,Warning
+45,AMOC,0.5961217330064731,Warning
+45,Greenland ice sheet,0.54371607839906,Warning
+45,Arctic sea ice,0.6195812912945647,Warning
+45,Amazon rainforest,0.5271847167915684,Warning
+45,ENSO,0.5100658599952612,Warning
+45,West Antarctic ice sheet,0.5212152921049623,Warning
+46,AMOC,0.5962601291770795,Warning
+46,Greenland ice sheet,0.5438607593558358,Warning
+46,Arctic sea ice,0.619713277060687,Warning
+46,Amazon rainforest,0.5273404930860289,Warning
+46,ENSO,0.510223826296553,Warning
+46,West Antarctic ice sheet,0.5213714827512062,Warning
+47,AMOC,0.5963817319134984,Warning
+47,Greenland ice sheet,0.5439880704137359,Warning
+47,Arctic sea ice,0.6198291528579837,Warning
+47,Amazon rainforest,0.5274776740929445,Warning
+47,ENSO,0.5103629361539285,Warning
+47,West Antarctic ice sheet,0.5215091738907119,Warning
+48,AMOC,0.5964885832205862,Warning
+48,Greenland ice sheet,0.5441000926834451,Warning
+48,Arctic sea ice,0.6199308917316131,Warning
+48,Amazon rainforest,0.5275984730510165,Warning
+48,ENSO,0.5104854341830096,Warning
+48,West Antarctic ice sheet,0.5216305463519042,Warning
+49,AMOC,0.59658247632361,Warning
+49,Greenland ice sheet,0.5441986588192564,Warning
+49,Arctic sea ice,0.6200202242324692,Warning
+49,Amazon rainforest,0.5277048409922874,Warning
+49,ENSO,0.5105932989857502,Warning
+49,West Antarctic ice sheet,0.5217375256035491,Warning
+50,AMOC,0.5966649860101034,Warning
+50,Greenland ice sheet,0.5442853824989138,Warning
+50,Arctic sea ice,0.6200986683086659,Warning
+50,Amazon rainforest,0.5277984975718345,Warning
+50,ENSO,0.5106882744466864,Warning
+50,West Antarctic ice sheet,0.5218318113547984,Warning
+51,AMOC,0.5967374952758453,Warning
+51,Greenland ice sheet,0.5443616844434065,Warning
+51,Arctic sea ice,0.6201675555086753,Warning
+51,Amazon rainforest,0.5278809583191935,Warning
+51,ENSO,0.5107718973934651,Warning
+51,West Antarctic ice sheet,0.5219149037785765,Warning
+52,AMOC,0.5968012187221529,Warning
+52,Greenland ice sheet,0.5444288153749117,Warning
+52,Arctic sea ice,0.6202280539495428,Warning
+52,Amazon rainforest,0.5279535587172702,Warning
+52,ENSO,0.5108455220343979,Warning
+52,West Antarctic ice sheet,0.521988126733221,Warning

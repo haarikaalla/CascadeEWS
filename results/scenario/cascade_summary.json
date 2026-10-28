@@ -1,0 +1,55 @@
+{
+  "scenario_type": "illustrative stress test; not an operational forecast",
+  "global_pressure": 0.6,
+  "weeks": 52,
+  "stage_thresholds": {
+    "Stable": 0.0,
+    "Watch": 0.25,
+    "Warning": 0.5,
+    "Critical": 0.75
+  },
+  "elements": [
+    {
+      "element": "AMOC",
+      "peak_risk": 0.5968012187221529,
+      "peak_stage": "Warning",
+      "first_warning_week": 11,
+      "first_critical_week": null
+    },
+    {
+      "element": "Greenland ice sheet",
+      "peak_risk": 0.5444288153749117,
+      "peak_stage": "Warning",
+      "first_warning_week": 17,
+      "first_critical_week": null
+    },
+    {
+      "element": "Arctic sea ice",
+      "peak_risk": 0.6202280539495428,
+      "peak_stage": "Warning",
+      "first_warning_week": 9,
+      "first_critical_week": null
+    },
+    {
+      "element": "Amazon rainforest",
+      "peak_risk": 0.5279535587172702,
+      "peak_stage": "Warning",
+      "first_warning_week": 21,
+      "first_critical_week": null
+    },
+    {
+      "element": "ENSO",
+      "peak_risk": 0.5108455220343979,
+      "peak_stage": "Warning",
+      "first_warning_week": 29,
+      "first_critical_week": null
+    },
+    {
+      "element": "West Antarctic ice sheet",
+      "peak_risk": 0.521988126733221,
+      "peak_stage": "Warning",
+      "first_warning_week": 23,
+      "first_critical_week": null
+    }
+  ]
+}

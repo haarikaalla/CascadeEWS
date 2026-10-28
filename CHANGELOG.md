@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.2.0
+
+- Integrated a deterministic six-element cascade stress-test engine covering AMOC,
+  Greenland, Arctic sea ice, Amazon, ENSO and West Antarctica.
+- Added explicit Stable, Watch, Warning and Critical stages over a configurable
+  0–52-week scenario timeline.
+- Added a cascade dashboard tab, model-probability or analyst-defined scenario input,
+  CLI command, machine-readable stage outputs, visualization and unit tests.
+- Kept this layer explicitly separate from the validated surge predictor: cascade
+  stages are transparent scenario assumptions, not observed AMOC forecasts.
+
 ## 1.1.0
 
 - Added an independently evaluated 8-month warning horizon alongside the existing

@@ -38,7 +38,13 @@
       }
     ],
     "feature_policy": "past-only rolling features; annual drivers lagged 12 months",
-    "temperature_source": "GCAG series in DataHub global-temp monthly snapshot"
+    "temperature_source": "GCAG series in DataHub global-temp monthly snapshot",
+    "annual_temperature_consistency": {
+      "overlap_years": 45,
+      "mean_absolute_difference_c": 2.4444444444449154e-05,
+      "max_absolute_difference_c": 5.833333333338242e-05,
+      "correlation": 0.9999999950076464
+    }
   },
   "horizons": {
     "3": {

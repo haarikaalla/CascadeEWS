@@ -143,6 +143,34 @@ def sha256_file(path: Path) -> str:
     return digest.hexdigest()
 
 
+def annual_consistency_report(config: ExperimentConfig) -> dict[str, float | int]:
+    """Reconcile the monthly GCAG series against the independent annual snapshot."""
+    monthly = pd.read_csv(config.monthly_path)
+    monthly = monthly.loc[monthly["Source"] == "GCAG"].copy()
+    monthly["date"] = pd.to_datetime(monthly["Year"], errors="raise")
+    monthly["year"] = monthly["date"].dt.year
+    monthly_annual = monthly.groupby("year")["Mean"].mean().rename("monthly_aggregation")
+
+    annual = pd.read_csv(config.annual_path)
+    annual_series = (
+        annual.loc[annual["Source"] == "GCAG"].set_index("Year")["Mean"].rename("annual_file")
+    )
+    comparison = pd.concat([monthly_annual, annual_series], axis=1).dropna()
+    comparison = comparison.loc[
+        (comparison.index >= pd.Timestamp(config.start_date).year)
+        & (comparison.index < pd.Timestamp(config.end_date).year)
+    ]
+    if comparison.empty:
+        raise ValueError("monthly and annual GCAG files have no overlapping experiment years")
+    absolute_error = (comparison["monthly_aggregation"] - comparison["annual_file"]).abs()
+    return {
+        "overlap_years": len(comparison),
+        "mean_absolute_difference_c": float(absolute_error.mean()),
+        "max_absolute_difference_c": float(absolute_error.max()),
+        "correlation": float(comparison.corr().iloc[0, 1]),
+    }
+
+
 def dataset_manifest(config: ExperimentConfig) -> dict[str, object]:
     paths = [config.monthly_path, config.annual_path, config.co2_path, config.energy_path]
     records = []
@@ -160,4 +188,5 @@ def dataset_manifest(config: ExperimentConfig) -> dict[str, object]:
         "sources": records,
         "feature_policy": "past-only rolling features; annual drivers lagged 12 months",
         "temperature_source": "GCAG series in DataHub global-temp monthly snapshot",
+        "annual_temperature_consistency": annual_consistency_report(config),
     }

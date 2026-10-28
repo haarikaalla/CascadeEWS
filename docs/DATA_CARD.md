@@ -11,7 +11,7 @@ and are not suitable on their own for operational or local hazard decisions.
 | Local file | Upstream project | Selected fields |
 |---|---|---|
 | `data/raw/berkeley_monthly.csv` | [DataHub global temperature](https://datahub.io/core/global-temp) | `GCAG` monthly global temperature anomaly |
-| `data/raw/berkeley_annual.csv` | [DataHub global temperature](https://datahub.io/core/global-temp) | Annual provenance snapshot |
+| `data/raw/berkeley_annual.csv` | [DataHub global temperature](https://datahub.io/core/global-temp) | Independent annual reconciliation of the monthly temperature signal |
 | `data/raw/owid_co2.csv` | [Our World in Data CO₂ dataset](https://github.com/owid/co2-data) | World CO₂, CO₂ growth and GHG temperature contribution |
 | `data/raw/owid_energy.csv` | [Our World in Data energy dataset](https://github.com/owid/energy-data) | World primary energy, renewable share and fossil share |
 
@@ -29,6 +29,9 @@ filename.
   windows in 2020 or later.
 - Every run records source file byte size, row count, and SHA-256 fingerprint in
   `results/validated/metrics.json`.
+- The annual GCAG file is independently reconciled against averages calculated from
+  the monthly GCAG file. Across the 45 experiment years, correlation exceeds 0.999 and
+  the maximum absolute difference is below 0.001 °C.
 
 ## Target definition
 

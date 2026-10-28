@@ -3,7 +3,12 @@ from pathlib import Path
 import pandas as pd
 
 from cascadeews.config import ExperimentConfig
-from cascadeews.data import DRIVER_FEATURES, build_supervised, dataset_manifest
+from cascadeews.data import (
+    DRIVER_FEATURES,
+    annual_consistency_report,
+    build_supervised,
+    dataset_manifest,
+)
 
 
 def test_real_datasets_are_present_and_fingerprinted():
@@ -12,6 +17,13 @@ def test_real_datasets_are_present_and_fingerprinted():
     assert len(sources) == 4
     assert all(item["rows"] > 100 for item in sources)
     assert all(len(item["sha256"]) == 64 for item in sources)
+
+
+def test_annual_dataset_reconciles_the_monthly_temperature_signal():
+    report = annual_consistency_report(ExperimentConfig())
+    assert report["overlap_years"] == 45
+    assert report["correlation"] > 0.999
+    assert report["max_absolute_difference_c"] < 0.001
 
 
 def test_temporal_partitions_are_purged_by_target_end():

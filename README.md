@@ -48,6 +48,31 @@ detecting a climate cascade. Full results are in
 [`results/validated/metrics.json`](results/validated/metrics.json), with responsible
 use documented in the [`model card`](results/validated/MODEL_CARD.md).
 
+## Multi-element cascade scenario
+
+The application also includes a transparent **scenario-analysis layer** for six
+connected climate elements:
+
+- AMOC
+- Greenland ice sheet
+- Arctic sea ice
+- Amazon rainforest
+- ENSO
+- West Antarctic ice sheet
+
+It propagates a selected normalized stress level across an explicit directed coupling
+matrix for 0–52 weeks and assigns four stages: **Stable** (`<0.25`), **Watch**
+(`0.25–0.49`), **Warning** (`0.50–0.74`) and **Critical** (`≥0.75`). The dashboard can
+use either an analyst-selected stress value or the latest probability from the chosen
+validated warning horizon.
+
+This layer is a reproducible stress test—not a fitted physical Earth-system model. For
+example, “AMOC reaches Warning at scenario week 11” under the committed `0.60` stress
+scenario means only that the declared assumptions crossed the declared threshold. It
+does **not** mean an AMOC collapse is forecast 11 weeks away. Assumptions and coupling
+strengths are visible in [`cascadeews/cascade.py`](cascadeews/cascade.py), with committed
+outputs in [`results/scenario`](results/scenario).
+
 ## System architecture
 
 ```mermaid
@@ -64,6 +89,7 @@ flowchart LR
     I --> K[Versioned model artifacts]
     J --> L[Model card · figure ·<br/>predictions · dashboard]
     K --> L
+    L --> N[Six-element scenario engine<br/>Stable · Watch · Warning · Critical]
     L --> M[CI reproduction check]
 ```
 
@@ -83,7 +109,7 @@ flowchart LR
 | Dataset in this repository | Role | How it is used |
 |---|---|---|
 | `berkeley_monthly.csv` | Primary signal and target | The file's **GCAG** monthly global temperature-anomaly series; the inherited filename is retained for compatibility. |
-| `berkeley_annual.csv` | Provenance snapshot | Included in the dataset manifest; not silently mixed into monthly targets. |
+| `berkeley_annual.csv` | Independent quality check | Reconciles annual values against monthly aggregation across 45 experiment years (correlation >0.999; maximum difference <0.001 °C). |
 | `owid_co2.csv` | Candidate contextual signals | World CO₂, growth, and GHG temperature contribution, shifted by 12 months. |
 | `owid_energy.csv` | Candidate contextual signals | World primary energy, renewable share, and fossil share, shifted by 12 months. |
 
@@ -120,6 +146,7 @@ immediately after installation; rerunning training verifies reproducibility.
 cascadeews --help
 cascadeews verify-data             # validate inputs and print fingerprints
 cascadeews train                   # rebuild models, metrics, figure and model card
+cascadeews simulate-cascade --pressure 0.60 --weeks 52
 python run.py                       # compatible one-command training wrapper
 ```
 
@@ -133,11 +160,13 @@ audited without trusting a prebuilt binary.
 cascadeews/
   data.py          input validation, provenance, past-only feature engineering
   training.py      validation search, thresholding, evaluation and uncertainty
+  cascade.py       six-element, 0–52-week transparent cascade stress test
   pipeline.py      deterministic end-to-end experiment orchestration
   reporting.py     publication-ready figure and model card
   dashboard.py     interactive result exploration
 tests/              unit and end-to-end reproducibility tests
 results/validated/  auditable metrics, predictions, figure and model card
+results/scenario/   illustrative stage timeline, summary and visualization
 data/raw/           pinned source-data snapshots
 docs/DATA_CARD.md   data provenance, intended use and limitations
 .github/workflows/  multi-version tests, packaging and reproduction checks
@@ -164,6 +193,8 @@ docs/DATA_CARD.md   data provenance, intended use and limitations
 - Historical notebooks, graph models, cascade-index experiments, synthetic data, and
   legacy figures remain an **experimental research track**. They are not part of the
   validated headline results until assessed under the same locked protocol.
+- AMOC and the other named elements in the scenario engine are conceptual nodes. The
+  repository contains no direct AMOC-strength observations or verified collapse labels.
 
 ## What the upgrade changed
 

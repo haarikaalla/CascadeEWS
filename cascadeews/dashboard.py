@@ -13,6 +13,7 @@ def main() -> None:
     except ImportError as exc:  # pragma: no cover - optional UI
         raise SystemExit('Install the dashboard with: pip install -e ".[dashboard]"') from exc
 
+    from .cascade import scenario_summary, simulate_cascade
     from .reporting import load_metrics
 
     root = Path("results/validated")
@@ -47,9 +48,7 @@ def main() -> None:
     )
     mode_metrics = test if operating_mode == "Balanced" else test["high_sensitivity"]
     threshold_key = (
-        "decision_threshold"
-        if operating_mode == "Balanced"
-        else "high_sensitivity_threshold"
+        "decision_threshold" if operating_mode == "Balanced" else "high_sensitivity_threshold"
     )
     alert_column = "predicted_alert" if operating_mode == "Balanced" else "sensitivity_alert"
     columns = st.columns(6)
@@ -65,8 +64,14 @@ def main() -> None:
         f"{operating_mode.lower()} threshold {result[threshold_key]:.3f}. "
         f"Block-bootstrap ROC-AUC interval: {ci[0]:.3f}–{ci[1]:.3f}."
     )
-    overview, timeline, comparison, provenance = st.tabs(
-        ["Overview", "Warning timeline", "Model comparison", "Data & governance"]
+    overview, timeline, comparison, cascade_tab, provenance = st.tabs(
+        [
+            "Overview",
+            "Warning timeline",
+            "Model comparison",
+            "Cascade scenario",
+            "Data & governance",
+        ]
     )
     selected = predictions.loc[predictions["horizon_months"] == horizon].set_index("target_end")
     with overview:
@@ -109,6 +114,38 @@ def main() -> None:
         st.subheader("Validation candidate selection")
         candidate_frame = pd.DataFrame(result["candidate_selection"]).T
         st.dataframe(candidate_frame.style.format(precision=3), width="stretch")
+    with cascade_tab:
+        st.warning(
+            "Scenario analysis only: this graph is not an AMOC forecast and its coupling "
+            "strengths are explicit stress-test assumptions, not fitted physical parameters."
+        )
+        scenario_source = st.radio(
+            "Scenario input",
+            ["Analyst stress test", "Latest selected-model probability"],
+            horizontal=True,
+        )
+        if scenario_source == "Analyst stress test":
+            pressure = st.slider(
+                "Illustrative global stress level",
+                min_value=0.0,
+                max_value=1.0,
+                value=0.60,
+                step=0.05,
+            )
+        else:
+            pressure = float(selected.iloc[-1]["probability"])
+            st.metric("Scenario pressure from latest evaluation window", f"{pressure:.3f}")
+        scenario = simulate_cascade(pressure, weeks=52)
+        scenario_wide = scenario.pivot(index="week", columns="element", values="risk")
+        st.line_chart(scenario_wide)
+        summary = scenario_summary(scenario, pressure)
+        st.subheader("Stable → Watch → Warning → Critical stage transitions")
+        st.dataframe(pd.DataFrame(summary["elements"]), hide_index=True, width="stretch")
+        st.caption(
+            "Elements: AMOC, Greenland ice sheet, Arctic sea ice, Amazon rainforest, "
+            "ENSO and West Antarctic ice sheet. A missing week means the scenario never "
+            "crossed that stage threshold."
+        )
     with provenance:
         st.subheader("Evaluation protocol")
         st.json(metrics["protocol"])

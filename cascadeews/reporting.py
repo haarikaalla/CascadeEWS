@@ -83,8 +83,8 @@ def write_model_card(metrics: dict[str, Any], output: Path) -> None:
         if horizon in metrics["horizons"]:
             sensitive = metrics["horizons"][horizon]["test"]["high_sensitivity"]
             long_horizon_rows.append(
-                f'| {horizon} months | {sensitive["precision"]:.3f} | '
-                f'{sensitive["recall"]:.3f} | {sensitive["f1"]:.3f} |'
+                f"| {horizon} months | {sensitive['precision']:.3f} | "
+                f"{sensitive['recall']:.3f} | {sensitive['f1']:.3f} |"
             )
     long_horizon_table = "\n".join(long_horizon_rows) or "| Not evaluated | — | — | — |"
     content = f"""# CascadeEWS validated model card
@@ -127,6 +127,14 @@ climate-disaster alarm and must not be used for public-safety decisions.
 These are alternative thresholds on the same validation-selected models. They are
 reported to make the missed-event/false-alarm tradeoff visible, not as proof of
 operational climate-cascade detection.
+
+## Cascade scenario layer
+
+The optional six-element cascade engine exposes Stable, Watch, Warning and Critical
+stages across 0–52 scenario weeks for AMOC, Greenland, Arctic sea ice, Amazon, ENSO and
+West Antarctica. Its normalized pressure, coupling matrix and stage thresholds are
+analyst-controlled assumptions. Scenario transition weeks are **not forecasts** of
+physical tipping events and are excluded from the validated metrics above.
 
 ## Limitations
 

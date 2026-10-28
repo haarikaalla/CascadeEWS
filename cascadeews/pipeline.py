@@ -76,10 +76,7 @@ def summary(metrics: dict[str, Any]) -> str:
         )
         if int(horizon) >= 8:
             sensitive = test["high_sensitivity"]
-            line += (
-                f" | sensitivity-mode F1 {sensitive['f1']:.3f} "
-                f"recall {sensitive['recall']:.3f}"
-            )
+            line += f" | sensitivity-mode F1 {sensitive['f1']:.3f} recall {sensitive['recall']:.3f}"
         lines.append(line)
     return "\n".join(lines)
 
