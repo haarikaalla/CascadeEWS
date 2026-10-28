@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cascade-ews"
+version = "1.0.0"
+description = "Leakage-safe climate early-warning experiments using Berkeley Earth and OWID data."
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{name = "Haarika Alla", email = "harikaalla7@gmail.com"}]
+dependencies = [
+  "joblib>=1.3,<2",
+  "matplotlib>=3.7,<4",
+  "numpy>=1.24,<3",
+  "pandas>=2.0,<4",
+  "scikit-learn>=1.3,<2",
+]
+
+[project.optional-dependencies]
+dashboard = ["streamlit>=1.66,<2"]
+research = ["torch>=2.0", "tqdm>=4.65"]
+dev = ["pytest>=7.4", "pytest-cov>=4.1", "ruff>=0.5"]
+
+[project.scripts]
+cascadeews = "cascadeews.cli:main"
+
+[tool.setuptools.packages.find]
+include = ["cascadeews*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.coverage.run]
+omit = ["cascadeews/cli.py", "cascadeews/dashboard.py"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+include = ["cascadeews/**/*.py", "scripts/**/*.py", "tests/**/*.py", "app.py", "run.py"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "SIM", "RUF"]
+ignore = ["RUF001", "RUF002", "RUF003"]

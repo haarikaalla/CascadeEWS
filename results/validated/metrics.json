@@ -1,0 +1,398 @@
+{
+  "protocol": {
+    "task": "future warming-surge early warning",
+    "surge_margin_c": 0.1,
+    "train_target_end_before": "2015-01-01",
+    "validation_target_end_before": "2020-01-01",
+    "test_target_end_from": "2020-01-01",
+    "annual_driver_lag_months": 12,
+    "selection_metric": "validation ROC-AUC",
+    "threshold_metric": "validation F1"
+  },
+  "dataset_manifest": {
+    "sources": [
+      {
+        "path": "data/raw/berkeley_monthly.csv",
+        "bytes": 81040,
+        "rows": 3867,
+        "sha256": "3c9f91f6593638f4b76cd16d4f3a0acb907673b4de5c3904dfcb63bb96e65133"
+      },
+      {
+        "path": "data/raw/berkeley_annual.csv",
+        "bytes": 6082,
+        "rows": 323,
+        "sha256": "2f23416944dc639b7f8e87098e65f158a3690446071018b9b466d47186b0eb86"
+      },
+      {
+        "path": "data/raw/owid_co2.csv",
+        "bytes": 14331624,
+        "rows": 50411,
+        "sha256": "5f36ddd3ec7799f30d0223d0b447b512b17f7e7e1652cd9c10890eb8bc4eaaed"
+      },
+      {
+        "path": "data/raw/owid_energy.csv",
+        "bytes": 9229369,
+        "rows": 23377,
+        "sha256": "266f2e2baad7975351bc9bb4aa061d22b1da9fe4c47d51d2ac6071e01e171f76"
+      }
+    ],
+    "feature_policy": "past-only rolling features; annual drivers lagged 12 months",
+    "temperature_source": "GCAG series in DataHub global-temp monthly snapshot"
+  },
+  "horizons": {
+    "3": {
+      "horizon_months": 3,
+      "selected_feature_group": "seasonal",
+      "selected_c": 0.01,
+      "decision_threshold": 0.4499999999999999,
+      "validation_auc": 0.8887070376432078,
+      "test": {
+        "roc_auc": 0.8440476190476192,
+        "roc_auc_block_bootstrap_95_ci": [
+          0.6755952380952381,
+          0.9625
+        ],
+        "average_precision": 0.7372787959752047,
+        "f1": 0.6956521739130435,
+        "precision": 0.6153846153846154,
+        "recall": 0.8,
+        "brier_score": 0.202601759620918,
+        "positive_rate": 0.3225806451612903,
+        "confusion_matrix": [
+          [
+            32,
+            10
+          ],
+          [
+            4,
+            16
+          ]
+        ],
+        "samples": 62
+      },
+      "partitions": {
+        "train": 357,
+        "validation": 60,
+        "test": 62
+      },
+      "candidate_selection": {
+        "seasonal": {
+          "validation_auc": 0.8887070376432078,
+          "c": 0.01
+        },
+        "history": {
+          "validation_auc": 0.8330605564648118,
+          "c": 0.003
+        },
+        "full": {
+          "validation_auc": 0.839607201309329,
+          "c": 3.0
+        }
+      },
+      "features": [
+        "temperature",
+        "temperature_lag_12",
+        "month_sin",
+        "month_cos"
+      ],
+      "top_coefficients": [
+        {
+          "feature": "temperature_lag_12",
+          "coefficient": -0.2799687691261086
+        },
+        {
+          "feature": "temperature",
+          "coefficient": 0.18667720384098896
+        },
+        {
+          "feature": "month_cos",
+          "coefficient": 0.12673527063587212
+        },
+        {
+          "feature": "month_sin",
+          "coefficient": -0.0028860070286929663
+        }
+      ]
+    },
+    "6": {
+      "horizon_months": 6,
+      "selected_feature_group": "history",
+      "selected_c": 10.0,
+      "decision_threshold": 0.065,
+      "validation_auc": 0.8478260869565217,
+      "test": {
+        "roc_auc": 0.8970251716247141,
+        "roc_auc_block_bootstrap_95_ci": [
+          0.7932558507273877,
+          0.9764492753623188
+        ],
+        "average_precision": 0.7714717244704634,
+        "f1": 0.7272727272727273,
+        "precision": 0.64,
+        "recall": 0.8421052631578947,
+        "brier_score": 0.17803369236064107,
+        "positive_rate": 0.2923076923076923,
+        "confusion_matrix": [
+          [
+            37,
+            9
+          ],
+          [
+            3,
+            16
+          ]
+        ],
+        "samples": 65
+      },
+      "partitions": {
+        "train": 354,
+        "validation": 60,
+        "test": 65
+      },
+      "candidate_selection": {
+        "seasonal": {
+          "validation_auc": 0.7919254658385093,
+          "c": 0.003
+        },
+        "history": {
+          "validation_auc": 0.8478260869565217,
+          "c": 10.0
+        },
+        "full": {
+          "validation_auc": 0.8059006211180124,
+          "c": 0.3
+        }
+      },
+      "features": [
+        "temperature",
+        "temperature_lag_1",
+        "temperature_lag_2",
+        "temperature_lag_3",
+        "temperature_lag_6",
+        "temperature_lag_12",
+        "temperature_lag_24",
+        "rolling_mean_6",
+        "rolling_std_6",
+        "rolling_slope_6",
+        "ar1_6",
+        "rolling_mean_12",
+        "rolling_std_12",
+        "rolling_slope_12",
+        "ar1_12",
+        "rolling_mean_24",
+        "rolling_std_24",
+        "rolling_slope_24",
+        "ar1_24",
+        "rolling_mean_60",
+        "rolling_std_60",
+        "rolling_slope_60",
+        "ar1_60",
+        "month_sin",
+        "month_cos",
+        "time_years"
+      ],
+      "top_coefficients": [
+        {
+          "feature": "rolling_mean_24",
+          "coefficient": -3.535074386699943
+        },
+        {
+          "feature": "time_years",
+          "coefficient": 3.452223387305948
+        },
+        {
+          "feature": "rolling_mean_12",
+          "coefficient": -2.3465846952694593
+        },
+        {
+          "feature": "rolling_mean_60",
+          "coefficient": 1.8043177012066727
+        },
+        {
+          "feature": "temperature",
+          "coefficient": 1.7630955177971028
+        },
+        {
+          "feature": "rolling_slope_60",
+          "coefficient": 1.3183742097862063
+        },
+        {
+          "feature": "rolling_mean_6",
+          "coefficient": -1.142785927665399
+        },
+        {
+          "feature": "rolling_std_24",
+          "coefficient": -1.0309412496567019
+        },
+        {
+          "feature": "rolling_slope_12",
+          "coefficient": 0.9623686313824916
+        },
+        {
+          "feature": "ar1_60",
+          "coefficient": -0.9159702971442663
+        },
+        {
+          "feature": "ar1_12",
+          "coefficient": 0.6314302294802236
+        },
+        {
+          "feature": "rolling_std_60",
+          "coefficient": 0.5927938905506543
+        },
+        {
+          "feature": "temperature_lag_24",
+          "coefficient": -0.5707011850566129
+        },
+        {
+          "feature": "temperature_lag_3",
+          "coefficient": -0.454267814528133
+        },
+        {
+          "feature": "temperature_lag_12",
+          "coefficient": 0.41656567283914797
+        }
+      ]
+    },
+    "12": {
+      "horizon_months": 12,
+      "selected_feature_group": "history",
+      "selected_c": 3.0,
+      "decision_threshold": 0.25499999999999995,
+      "validation_auc": 0.9303977272727273,
+      "test": {
+        "roc_auc": 0.8965811965811966,
+        "roc_auc_block_bootstrap_95_ci": [
+          0.7620007680491551,
+          0.990909090909091
+        ],
+        "average_precision": 0.8623619874307266,
+        "f1": 0.20689655172413793,
+        "precision": 1.0,
+        "recall": 0.11538461538461539,
+        "brier_score": 0.2901581613521836,
+        "positive_rate": 0.36619718309859156,
+        "confusion_matrix": [
+          [
+            45,
+            0
+          ],
+          [
+            23,
+            3
+          ]
+        ],
+        "samples": 71
+      },
+      "partitions": {
+        "train": 348,
+        "validation": 60,
+        "test": 71
+      },
+      "candidate_selection": {
+        "seasonal": {
+          "validation_auc": 0.7855113636363636,
+          "c": 0.003
+        },
+        "history": {
+          "validation_auc": 0.9303977272727273,
+          "c": 3.0
+        },
+        "full": {
+          "validation_auc": 0.8764204545454546,
+          "c": 0.03
+        }
+      },
+      "features": [
+        "temperature",
+        "temperature_lag_1",
+        "temperature_lag_2",
+        "temperature_lag_3",
+        "temperature_lag_6",
+        "temperature_lag_12",
+        "temperature_lag_24",
+        "rolling_mean_6",
+        "rolling_std_6",
+        "rolling_slope_6",
+        "ar1_6",
+        "rolling_mean_12",
+        "rolling_std_12",
+        "rolling_slope_12",
+        "ar1_12",
+        "rolling_mean_24",
+        "rolling_std_24",
+        "rolling_slope_24",
+        "ar1_24",
+        "rolling_mean_60",
+        "rolling_std_60",
+        "rolling_slope_60",
+        "ar1_60",
+        "month_sin",
+        "month_cos",
+        "time_years"
+      ],
+      "top_coefficients": [
+        {
+          "feature": "time_years",
+          "coefficient": 5.194702031290793
+        },
+        {
+          "feature": "rolling_mean_24",
+          "coefficient": -3.150939970604488
+        },
+        {
+          "feature": "rolling_mean_12",
+          "coefficient": -3.0546138869019046
+        },
+        {
+          "feature": "rolling_slope_60",
+          "coefficient": 1.4934590497952482
+        },
+        {
+          "feature": "rolling_mean_6",
+          "coefficient": -1.0206168073912318
+        },
+        {
+          "feature": "temperature",
+          "coefficient": 0.9515420018578197
+        },
+        {
+          "feature": "rolling_std_24",
+          "coefficient": -0.7811232676034456
+        },
+        {
+          "feature": "ar1_60",
+          "coefficient": -0.6423890047715468
+        },
+        {
+          "feature": "rolling_slope_12",
+          "coefficient": 0.6360563922520441
+        },
+        {
+          "feature": "temperature_lag_12",
+          "coefficient": 0.6281520877398673
+        },
+        {
+          "feature": "rolling_slope_6",
+          "coefficient": 0.49947510446940124
+        },
+        {
+          "feature": "rolling_mean_60",
+          "coefficient": 0.47033224351011865
+        },
+        {
+          "feature": "rolling_std_12",
+          "coefficient": 0.4193282779594962
+        },
+        {
+          "feature": "temperature_lag_1",
+          "coefficient": -0.35602100511318757
+        },
+        {
+          "feature": "month_cos",
+          "coefficient": 0.35485667155373485
+        }
+      ]
+    }
+  }
+}

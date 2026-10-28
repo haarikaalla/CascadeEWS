@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install -e ".[dev]"
+      - run: ruff check .
+      - run: python -m pytest --cov=cascadeews --cov-fail-under=85
+
+  reproduce:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+          cache: pip
+      - run: python -m pip install .
+      - run: cp results/validated/metrics.json /tmp/reference-metrics.json
+      - run: cp results/validated/predictions.csv /tmp/reference-predictions.csv
+      - run: cascadeews train
+      - name: Ensure committed metrics reproduce
+        run: >-
+          python scripts/verify_reproduction.py
+          /tmp/reference-metrics.json results/validated/metrics.json
+          /tmp/reference-predictions.csv results/validated/predictions.csv
+
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - run: python -m pip install build
+      - run: python -m build
+      - run: python -m venv /tmp/cascadeews-wheel
+      - run: /tmp/cascadeews-wheel/bin/pip install dist/*.whl
+      - run: /tmp/cascadeews-wheel/bin/cascadeews --help
